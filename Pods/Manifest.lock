@@ -1,0 +1,13 @@
+PODS:
+  - ELCImagePickerController (0.1.1)
+  - SVProgressHUD (0.9)
+
+DEPENDENCIES:
+  - ELCImagePickerController
+  - SVProgressHUD
+
+SPEC CHECKSUMS:
+  ELCImagePickerController: 1f1150d7ea030f8b2474232d624198121c9be93b
+  SVProgressHUD: 03d4845ec8e64591726428a08236c6a5489d45f8
+
+COCOAPODS: 0.19.0
