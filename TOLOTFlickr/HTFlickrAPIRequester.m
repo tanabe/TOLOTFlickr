@@ -71,30 +71,37 @@ static HTFlickrAPIRequester *instance;
     
     _flickrAPIRequest.sessionInfo = getAccessTokenStep;
     [_flickrAPIRequest fetchOAuthAccessTokenWithRequestToken:token verifier:verifier];
-    
-    //[activityIndicator startAnimating];
-    //[viewController.view addSubview:progressView];
-    callback();
+}
+
+- (void) fetchImages {
+    //_flickrAPIRequest = [[OFFlickrAPIRequest alloc] initWithAPIContext:_flickrContext];
+    //_flickrAPIRequest.delegate = self;
+    //NSLog(@"%@", _flickrContext.OAuthToken);
+    //[_flickrAPIRequest callAPIMethodWithGET:@"flickr.test.login" arguments:nil];
+    [_flickrAPIRequest callAPIMethodWithGET:@"flickr.photos.search" arguments:@{@"user_id": @"me"}];
+    NSLog(@"called");
 }
 
 #pragma mark OFFlickrAPIRequest delegate methods
 - (void) flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didObtainOAuthAccessToken:(NSString *)inAccessToken secret:(NSString *)inSecret userFullName:(NSString *)inFullName userName:(NSString *)inUserName userNSID:(NSString *)inNSID {
-    
-    
+    //callback();
+    //test
+    _flickrContext.OAuthToken = inAccessToken;
+    _flickrContext.OAuthTokenSecret = inSecret;
+    [self fetchImages];
 }
 
 - (void) flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didCompleteWithResponse:(NSDictionary *)inResponseDictionary {
-    
+    NSLog(@"%@", inResponseDictionary);
 }
 
 - (void) flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didFailWithError:(NSError *)inError {
-	
+	NSLog([inError description]);
 }
 
 - (void) flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didObtainOAuthRequestToken:(NSString *)inRequestToken secret:(NSString *)inSecret {
     _flickrContext.OAuthToken = inRequestToken;
     _flickrContext.OAuthTokenSecret = inSecret;
-    
     NSURL *authURL = [_flickrContext userAuthorizationURLWithRequestToken:inRequestToken requestedPermission:OFFlickrWritePermission];
     [[UIApplication sharedApplication] openURL:authURL];
 }

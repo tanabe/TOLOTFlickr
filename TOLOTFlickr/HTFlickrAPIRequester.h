@@ -15,4 +15,5 @@ typedef void (^callback)();
 + (HTFlickrAPIRequester *) getInstance;
 - (void) authorize;
 - (void) fetchAccessToken:url complete:(callback)callback;
+- (void) fetchImages;
 @end

@@ -77,6 +77,7 @@
     HTFlickrAPIRequester *flickrAPIRequester = [HTFlickrAPIRequester getInstance];
     [flickrAPIRequester fetchAccessToken:url
                             complete:^{
+                                //[NSThread sleepForTimeInterval:1];
                                 [_firstViewController loadImages];
                             }];
     return YES;
