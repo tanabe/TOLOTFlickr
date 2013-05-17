@@ -9,11 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "ObjectiveFlickr.h"
 
-typedef void (^callback)();
+typedef void (^fetchAccessTokenCallback)();
+typedef void (^fetchImagesCallback)(NSDictionary *response);
 
 @interface HTFlickrAPIRequester : NSObject
 + (HTFlickrAPIRequester *) getInstance;
 - (void) authorize;
-- (void) fetchAccessToken:url complete:(callback)callback;
-- (void) fetchImages;
+- (void) fetchAccessToken:url complete:(fetchAccessTokenCallback)callback;
+- (void) fetchImages:(fetchImagesCallback)callback;
 @end

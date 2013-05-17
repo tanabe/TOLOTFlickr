@@ -16,11 +16,14 @@ static NSString *callbackURLBaseString = @"tolotflickr://auth";
 
 static NSString *fetchRequestTokenStep = @"fetchRequestTokenStep";
 static NSString *getAccessTokenStep = @"getAccessTokenStep";
+static NSString *fetchImagesStep = @"fetchImagesStep";
+
+static fetchAccessTokenCallback kFetchAccessTokenCallback;
+static fetchImagesCallback kFetchImagesCallback;
 
 static HTFlickrAPIRequester *instance;
 
 @interface HTFlickrAPIRequester() <OFFlickrAPIRequestDelegate>
-
 @property OFFlickrAPIRequest *flickrAPIRequest;
 @property OFFlickrAPIContext *flickrContext;
 @end
@@ -60,7 +63,8 @@ static HTFlickrAPIRequester *instance;
     [_flickrAPIRequest fetchOAuthRequestTokenWithCallbackURL:[NSURL URLWithString:callbackURLBaseString]];
 }
 
-- (void) fetchAccessToken:url complete:(callback)callback {
+- (void) fetchAccessToken:url complete:(fetchAccessTokenCallback)callback {
+    kFetchAccessTokenCallback = callback;
     NSString *token = nil;
     NSString *verifier = nil;
     BOOL result = OFExtractOAuthCallback(url, [NSURL URLWithString:callbackURLBaseString], &token, &verifier);
@@ -73,30 +77,30 @@ static HTFlickrAPIRequester *instance;
     [_flickrAPIRequest fetchOAuthAccessTokenWithRequestToken:token verifier:verifier];
 }
 
-- (void) fetchImages {
-    //_flickrAPIRequest = [[OFFlickrAPIRequest alloc] initWithAPIContext:_flickrContext];
-    //_flickrAPIRequest.delegate = self;
-    //NSLog(@"%@", _flickrContext.OAuthToken);
-    //[_flickrAPIRequest callAPIMethodWithGET:@"flickr.test.login" arguments:nil];
-    [_flickrAPIRequest callAPIMethodWithGET:@"flickr.photos.search" arguments:@{@"user_id": @"me"}];
-    NSLog(@"called");
+- (void) fetchImages:(fetchImagesCallback) callback {
+    kFetchImagesCallback = callback;
+    _flickrAPIRequest.sessionInfo = fetchImagesStep;
+    [_flickrAPIRequest callAPIMethodWithGET:@"flickr.photos.search"
+                                  arguments:@{@"user_id": @"me", @"media": @"photos"}];
 }
 
+
 #pragma mark OFFlickrAPIRequest delegate methods
+
 - (void) flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didObtainOAuthAccessToken:(NSString *)inAccessToken secret:(NSString *)inSecret userFullName:(NSString *)inFullName userName:(NSString *)inUserName userNSID:(NSString *)inNSID {
-    //callback();
-    //test
     _flickrContext.OAuthToken = inAccessToken;
     _flickrContext.OAuthTokenSecret = inSecret;
-    [self fetchImages];
+    kFetchAccessTokenCallback();
 }
 
 - (void) flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didCompleteWithResponse:(NSDictionary *)inResponseDictionary {
-    NSLog(@"%@", inResponseDictionary);
+    if (_flickrAPIRequest.sessionInfo == fetchImagesStep) {
+        kFetchImagesCallback(inResponseDictionary);
+    }
 }
 
 - (void) flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didFailWithError:(NSError *)inError {
-	NSLog([inError description]);
+	//NSLog([inError description]);
 }
 
 - (void) flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didObtainOAuthRequestToken:(NSString *)inRequestToken secret:(NSString *)inSecret {

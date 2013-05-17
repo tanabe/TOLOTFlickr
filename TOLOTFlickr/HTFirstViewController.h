@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HTFirstViewController : UIViewController
-- (void) loadImages;
+- (void) showImages;
 @end

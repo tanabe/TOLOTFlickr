@@ -12,6 +12,7 @@
 @interface HTFirstViewController () <UITableViewDelegate, UITableViewDataSource>
 @property HTFlickrAPIRequester *flickrAPIRequester;
 @property (strong, nonatomic) IBOutlet UITableView *imagesTableView;
+@property NSArray *images;
 @end
 
 @implementation HTFirstViewController
@@ -36,15 +37,23 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void) loadImages {
-    NSLog(@"loadImages");
-    [_flickrAPIRequester fetchImages];
+- (void) showImages {
+    [_flickrAPIRequester fetchImages:^(NSDictionary *response) {
+        NSLog(@"ok");
+        NSLog(@"%@", response[@"photos"][@"photo"]);
+        _images = [[NSArray alloc] initWithArray:response[@"photos"][@"photo"]];
+        //NSLog(@"@%", _images);
+//        for (NSObject *photo in response[@"photos"][@"photo"]) {
+//            NSLog(@"%@", photo);
+//        }
+        [_imagesTableView reloadData];
+    }];
 }
 
 #pragma mark delegates
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return [_images count];
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -66,6 +75,14 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    
+    NSDictionary *imageInfo = _images[indexPath.row];
+    NSString *urlString = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_s.jpg", imageInfo[@"farm"], imageInfo[@"server"], imageInfo[@"id"], imageInfo[@"secret"]];
+    //NSLog(urlString);
+    NSData *imageData = [NSData dataWithContentsOfURL:
+                  [NSURL URLWithString:urlString]];
+    UIImage *image = [[UIImage alloc] initWithData:imageData];
+    cell.imageView.image = image;
     cell.textLabel.text = @"hogeho";
     return cell;
 }
