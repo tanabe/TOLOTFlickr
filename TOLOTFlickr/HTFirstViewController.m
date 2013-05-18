@@ -8,8 +8,10 @@
 
 #import "HTFirstViewController.h"
 #import "HTFlickrAPIRequester.h"
+#import "HTImageDetailViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
-@interface HTFirstViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface HTFirstViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 @property HTFlickrAPIRequester *flickrAPIRequester;
 @property (strong, nonatomic) IBOutlet UITableView *imagesTableView;
 @property NSArray *images;
@@ -30,7 +32,12 @@
     _imagesTableView.delegate = self;
     _imagesTableView.dataSource = self;
     _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
-    [_flickrAPIRequester authorize];
+    
+    if (_flickrAPIRequester.hasAuthorized) {
+        [self showImages];
+    } else {
+        [_flickrAPIRequester authorize];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,13 +46,7 @@
 
 - (void) showImages {
     [_flickrAPIRequester fetchImages:^(NSDictionary *response) {
-        NSLog(@"ok");
-        NSLog(@"%@", response[@"photos"][@"photo"]);
         _images = [[NSArray alloc] initWithArray:response[@"photos"][@"photo"]];
-        //NSLog(@"@%", _images);
-//        for (NSObject *photo in response[@"photos"][@"photo"]) {
-//            NSLog(@"%@", photo);
-//        }
         [_imagesTableView reloadData];
     }];
 }
@@ -78,14 +79,23 @@
     
     NSDictionary *imageInfo = _images[indexPath.row];
     NSString *urlString = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_s.jpg", imageInfo[@"farm"], imageInfo[@"server"], imageInfo[@"id"], imageInfo[@"secret"]];
-    //NSLog(urlString);
-    NSData *imageData = [NSData dataWithContentsOfURL:
-                  [NSURL URLWithString:urlString]];
-    UIImage *image = [[UIImage alloc] initWithData:imageData];
-    cell.imageView.image = image;
-    cell.textLabel.text = @"hogeho";
+    [cell.imageView setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"loading.gif"]];
+    cell.imageView.userInteractionEnabled = YES;
+    cell.textLabel.text = imageInfo[@"title"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapThumbnail:)];
+    tapGestureRecognizer.delegate = self;
+    [cell.imageView addGestureRecognizer:tapGestureRecognizer];
     return cell;
 }
 
+#pragma mark delegate methods
+
+-(void) didTapThumbnail:(UITapGestureRecognizer *)sender {
+    NSLog(@"%@", sender);
+    HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] init];
+    [self presentViewController:viewController animated:YES completion:nil];
+}
 
 @end

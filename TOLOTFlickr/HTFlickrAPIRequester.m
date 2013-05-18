@@ -18,6 +18,7 @@ static NSString *fetchRequestTokenStep = @"fetchRequestTokenStep";
 static NSString *getAccessTokenStep = @"getAccessTokenStep";
 static NSString *fetchImagesStep = @"fetchImagesStep";
 
+
 static fetchAccessTokenCallback kFetchAccessTokenCallback;
 static fetchImagesCallback kFetchImagesCallback;
 
@@ -40,16 +41,19 @@ static HTFlickrAPIRequester *instance;
 - (id) init {
     self = [super init];
     if (self != nil) {
+        _hasAuthorized = NO;
         _flickrContext = [[OFFlickrAPIContext alloc] initWithAPIKey:OBJECTIVE_FLICKR_API_KEY
                                                        sharedSecret:OBJECTIVE_FLICKR_API_SHARED_SECRET];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         NSString *authToken = [userDefaults objectForKey:storedAuthTokenKeyName];
         NSString *authTokenSecret = [userDefaults objectForKey:storedAuthTokenSecretKeyName];
-        
         if (([authToken length] > 0) && ([authTokenSecret length] > 0)) {
             _flickrContext.OAuthToken = authToken;
             _flickrContext.OAuthTokenSecret = authTokenSecret;
+            _hasAuthorized = YES;
         }
+        //cancel authorize
+        //[self setAndStoreFlickrAuthToken:nil secret:nil];
         _flickrAPIRequest = [[OFFlickrAPIRequest alloc] initWithAPIContext:_flickrContext];
         _flickrAPIRequest.delegate = self;
     }
@@ -88,6 +92,7 @@ static HTFlickrAPIRequester *instance;
 #pragma mark OFFlickrAPIRequest delegate methods
 
 - (void) flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didObtainOAuthAccessToken:(NSString *)inAccessToken secret:(NSString *)inSecret userFullName:(NSString *)inFullName userName:(NSString *)inUserName userNSID:(NSString *)inNSID {
+    [self setAndStoreFlickrAuthToken:inAccessToken secret:inSecret];
     _flickrContext.OAuthToken = inAccessToken;
     _flickrContext.OAuthTokenSecret = inSecret;
     kFetchAccessTokenCallback();
@@ -108,6 +113,22 @@ static HTFlickrAPIRequester *instance;
     _flickrContext.OAuthTokenSecret = inSecret;
     NSURL *authURL = [_flickrContext userAuthorizationURLWithRequestToken:inRequestToken requestedPermission:OFFlickrWritePermission];
     [[UIApplication sharedApplication] openURL:authURL];
+}
+
+
+- (void) setAndStoreFlickrAuthToken:(NSString *)inAuthToken secret:(NSString *)inSecret {
+	if (![inAuthToken length] || ![inSecret length]) {
+		_flickrContext.OAuthToken = nil;
+        _flickrContext.OAuthTokenSecret = nil;
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:storedAuthTokenKeyName];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:storedAuthTokenSecretKeyName];
+	} else {
+        NSLog(@"store");
+		_flickrContext.OAuthToken = inAuthToken;
+        _flickrContext.OAuthTokenSecret = inSecret;
+		[[NSUserDefaults standardUserDefaults] setObject:inAuthToken forKey:storedAuthTokenKeyName];
+		[[NSUserDefaults standardUserDefaults] setObject:inSecret forKey:storedAuthTokenSecretKeyName];
+	}
 }
 
 @end

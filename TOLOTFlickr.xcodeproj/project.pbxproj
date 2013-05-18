@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3F4DF8E9174524A900FAF065 /* HTFlickrAPIRequester.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F4DF8E8174524A900FAF065 /* HTFlickrAPIRequester.m */; };
+		3F79DE2A1747C97F007C137B /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3F79DE291747C97F007C137B /* loading.gif */; };
+		3F79DE331747CD81007C137B /* HTImageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F79DE311747CD81007C137B /* HTImageDetailViewController.m */; };
+		3F79DE341747CD81007C137B /* HTImageDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F79DE321747CD81007C137B /* HTImageDetailViewController.xib */; };
 		3FECD6C517427973002F92EE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6C417427973002F92EE /* UIKit.framework */; };
 		3FECD6C717427973002F92EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6C617427973002F92EE /* Foundation.framework */; };
 		3FECD6C917427973002F92EE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6C817427973002F92EE /* CoreGraphics.framework */; };
@@ -59,6 +62,10 @@
 		158CEE28E98A4062B2FBEAF6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F4DF8E7174524A900FAF065 /* HTFlickrAPIRequester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTFlickrAPIRequester.h; sourceTree = "<group>"; };
 		3F4DF8E8174524A900FAF065 /* HTFlickrAPIRequester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTFlickrAPIRequester.m; sourceTree = "<group>"; };
+		3F79DE291747C97F007C137B /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
+		3F79DE301747CD81007C137B /* HTImageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTImageDetailViewController.h; sourceTree = "<group>"; };
+		3F79DE311747CD81007C137B /* HTImageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTImageDetailViewController.m; sourceTree = "<group>"; };
+		3F79DE321747CD81007C137B /* HTImageDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HTImageDetailViewController.xib; sourceTree = "<group>"; };
 		3FECD6C117427973002F92EE /* TOLOTFlickr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOLOTFlickr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FECD6C417427973002F92EE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3FECD6C617427973002F92EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -109,6 +116,7 @@
 		3F4DF8E61745242300FAF065 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3F79DE291747C97F007C137B /* loading.gif */,
 				3FECD6DF17427973002F92EE /* first.png */,
 				3FECD6E617427973002F92EE /* second.png */,
 				3FECD6E817427973002F92EE /* second@2x.png */,
@@ -154,6 +162,7 @@
 		3FECD6CA17427973002F92EE /* TOLOTFlickr */ = {
 			isa = PBXGroup;
 			children = (
+				3FECD6CB17427973002F92EE /* Supporting Files */,
 				3FECD6D317427973002F92EE /* HTAppDelegate.h */,
 				3FECD6D417427973002F92EE /* HTAppDelegate.m */,
 				3FECD6DC17427973002F92EE /* HTFirstViewController.h */,
@@ -162,9 +171,11 @@
 				3FECD6E417427973002F92EE /* HTSecondViewController.m */,
 				3FECD6EA17427973002F92EE /* HTFirstViewController.xib */,
 				3FECD6ED17427973002F92EE /* HTSecondViewController.xib */,
-				3FECD6CB17427973002F92EE /* Supporting Files */,
 				3F4DF8E7174524A900FAF065 /* HTFlickrAPIRequester.h */,
 				3F4DF8E8174524A900FAF065 /* HTFlickrAPIRequester.m */,
+				3F79DE301747CD81007C137B /* HTImageDetailViewController.h */,
+				3F79DE311747CD81007C137B /* HTImageDetailViewController.m */,
+				3F79DE321747CD81007C137B /* HTImageDetailViewController.xib */,
 			);
 			path = TOLOTFlickr;
 			sourceTree = "<group>";
@@ -281,6 +292,8 @@
 				3FECD6E917427973002F92EE /* second@2x.png in Resources */,
 				3FECD6EC17427973002F92EE /* HTFirstViewController.xib in Resources */,
 				3FECD6EF17427973002F92EE /* HTSecondViewController.xib in Resources */,
+				3F79DE2A1747C97F007C137B /* loading.gif in Resources */,
+				3F79DE341747CD81007C137B /* HTImageDetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +340,7 @@
 				3FECD6DE17427973002F92EE /* HTFirstViewController.m in Sources */,
 				3FECD6E517427973002F92EE /* HTSecondViewController.m in Sources */,
 				3F4DF8E9174524A900FAF065 /* HTFlickrAPIRequester.m in Sources */,
+				3F79DE331747CD81007C137B /* HTImageDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
