@@ -10,11 +10,28 @@
 #import "HTFlickrAPIRequester.h"
 #import "HTImageDetailViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <objc/runtime.h>
+
+@interface UIImage (URL)
+@property (nonatomic) NSString *url;
+@end
+
+@implementation UIImage (URL)
+-(NSString *)url {
+    return objc_getAssociatedObject(self, @selector(setUrl:));
+}
+
+-(void)setUrl:(NSString*)val {
+    objc_setAssociatedObject(self, _cmd, val, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+@end
+
 
 @interface HTFirstViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 @property HTFlickrAPIRequester *flickrAPIRequester;
 @property (strong, nonatomic) IBOutlet UITableView *imagesTableView;
 @property NSArray *images;
+@property NSMutableArray *selectedImages;
 @end
 
 @implementation HTFirstViewController
@@ -32,7 +49,7 @@
     _imagesTableView.delegate = self;
     _imagesTableView.dataSource = self;
     _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
-    
+    _selectedImages = [[NSMutableArray alloc] init];
     if (_flickrAPIRequester.hasAuthorized) {
         [self showImages];
     } else {
@@ -62,7 +79,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"hoge";
+    return @"0/62枚を選択済み";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -81,21 +98,35 @@
     NSString *urlString = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_s.jpg", imageInfo[@"farm"], imageInfo[@"server"], imageInfo[@"id"], imageInfo[@"secret"]];
     [cell.imageView setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"loading.gif"]];
     cell.imageView.userInteractionEnabled = YES;
+    [cell.imageView.image setUrl:urlString];
     cell.textLabel.text = imageInfo[@"title"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapThumbnail:)];
-    tapGestureRecognizer.delegate = self;
-    [cell.imageView addGestureRecognizer:tapGestureRecognizer];
+    UITapGestureRecognizer *thumbnailTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    thumbnailTapRecognizer.delegate = self;
+    [cell.imageView addGestureRecognizer:thumbnailTapRecognizer];
+
+    UITapGestureRecognizer *cellTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    cellTapRecognizer.delegate = self;
+    [cell addGestureRecognizer:cellTapRecognizer];
+
     return cell;
 }
 
 #pragma mark delegate methods
 
--(void) didTapThumbnail:(UITapGestureRecognizer *)sender {
-    NSLog(@"%@", sender);
-    HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] init];
-    [self presentViewController:viewController animated:YES completion:nil];
+-(void) handleTap:(UITapGestureRecognizer *)sender {
+    if ([sender.view isMemberOfClass:[UIImageView class]]) {
+        UIImageView *imageView = (UIImageView *)sender.view;
+        NSLog(@"%@", imageView.image.url);
+        //TODO show details
+        //HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] init];
+        //[self presentViewController:viewController animated:YES completion:nil];
+    } else if ([sender.view isMemberOfClass:[UITableViewCell class]]) {
+        NSLog(@"cell");
+        UITableViewCell *cell = (UITableViewCell *)sender.view;
+        cell.backgroundColor = [UIColor grayColor];
+    }
 }
 
 @end
