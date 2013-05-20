@@ -7,9 +7,12 @@
 //
 
 #import "HTImageDetailViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface HTImageDetailViewController ()
-
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *closeButton;
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property NSString *url;
 @end
 
 @implementation HTImageDetailViewController
@@ -23,16 +26,26 @@
     return self;
 }
 
+- (id) initWithURL:(NSString *)url {
+    if((self = [super init]) != nil) {
+        _url = url;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    [_imageView setImageWithURL:[NSURL URLWithString:_url] placeholderImage:[UIImage imageNamed:@"loading.gif"]];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)didTapCloseButton:(id)sender {
+    [self dismissViewControllerAnimated:YES completion: nil];
 }
 
 @end

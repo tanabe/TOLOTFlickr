@@ -120,8 +120,10 @@
         UIImageView *imageView = (UIImageView *)sender.view;
         NSLog(@"%@", imageView.image.url);
         //TODO show details
-        //HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] init];
-        //[self presentViewController:viewController animated:YES completion:nil];
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"_s.jpg" options:0 error:nil];
+        NSString *url = [regex stringByReplacingMatchesInString:imageView.image.url options:0 range:NSMakeRange(0, imageView.image.url.length) withTemplate:@"_b.jpg"];
+        HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] initWithURL:url];
+        [self presentViewController:viewController animated:YES completion:nil];
     } else if ([sender.view isMemberOfClass:[UITableViewCell class]]) {
         NSLog(@"cell");
         UITableViewCell *cell = (UITableViewCell *)sender.view;
