@@ -36,7 +36,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [_imageView setImageWithURL:[NSURL URLWithString:_url] placeholderImage:[UIImage imageNamed:@"loading.gif"]];
+    __weak HTImageDetailViewController *weakSelf = self;
+    _imageView.contentMode = UIViewContentModeCenter;
+    [_imageView setImageWithURL:[NSURL URLWithString:_url]
+               placeholderImage:[UIImage imageNamed:@"loading.gif"]
+     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+         weakSelf.imageView.contentMode = UIViewContentModeScaleAspectFit;
+     }];
 }
 
 - (void)didReceiveMemoryWarning

@@ -17,5 +17,5 @@ typedef void (^fetchImagesCallback)(NSDictionary *response);
 + (HTFlickrAPIRequester *) getInstance;
 - (void) authorize;
 - (void) fetchAccessToken:url complete:(fetchAccessTokenCallback)callback;
-- (void) fetchImages:(fetchImagesCallback)callback;
+- (void) fetchImages:(NSInteger)perPage withPage:(NSInteger)page complete:(fetchImagesCallback)callback;
 @end

@@ -9,8 +9,12 @@
 #import "HTFirstViewController.h"
 #import "HTFlickrAPIRequester.h"
 #import "HTImageDetailViewController.h"
+#import "HTLoadMoreImageCell.h"
+#import "HTImageCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <objc/runtime.h>
+
+static NSInteger PER_PAGE = 10;
 
 @interface UIImage (URL)
 @property (nonatomic) NSString *url;
@@ -30,8 +34,9 @@
 @interface HTFirstViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 @property HTFlickrAPIRequester *flickrAPIRequester;
 @property (strong, nonatomic) IBOutlet UITableView *imagesTableView;
-@property NSArray *images;
+@property NSMutableArray *images;
 @property NSMutableArray *selectedImages;
+@property BOOL hasMoreImages;
 @end
 
 @implementation HTFirstViewController
@@ -46,10 +51,31 @@
 							
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [_imagesTableView registerNib:[UINib nibWithNibName:@"HTLoadMoreImageCell" bundle:nil] forCellReuseIdentifier:@"LoadMoreImageCell"];
+    [_imagesTableView registerNib:[UINib nibWithNibName:@"HTImageCell" bundle:nil] forCellReuseIdentifier:@"ImageCell"];
+    
+    _images = [NSMutableArray array];
+    _selectedImages = [NSMutableArray array];
+    
+    _hasMoreImages = YES;
     _imagesTableView.delegate = self;
     _imagesTableView.dataSource = self;
     _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
-    _selectedImages = [[NSMutableArray alloc] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"didThumbnailTapped"
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      NSLog(@"%@", note.userInfo);
+                                                      NSDictionary *imageInfo = note.userInfo;
+                                                      NSString *url = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_b.jpg", imageInfo[@"farm"], imageInfo[@"server"], imageInfo[@"id"], imageInfo[@"secret"]];
+                                                      
+                                                      HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] initWithURL:url];
+                                                      [self presentViewController:viewController animated:YES completion:nil];
+
+                                                  }];
+    
     if (_flickrAPIRequester.hasAuthorized) {
         [self showImages];
     } else {
@@ -62,8 +88,9 @@
 }
 
 - (void) showImages {
-    [_flickrAPIRequester fetchImages:^(NSDictionary *response) {
-        _images = [[NSArray alloc] initWithArray:response[@"photos"][@"photo"]];
+    [_flickrAPIRequester fetchImages:PER_PAGE withPage:0 complete:^(NSDictionary *response) {
+        [_images addObjectsFromArray:response[@"photos"][@"photo"]];
+//        _images = [[NSArray alloc] initWithArray:response[@"photos"][@"photo"]];
         [_imagesTableView reloadData];
     }];
 }
@@ -71,7 +98,7 @@
 #pragma mark delegates
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_images count];
+    return _hasMoreImages ? _images.count + 1 : _images.count;
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -82,35 +109,31 @@
     return @"0/62枚を選択済み";
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row >= _images.count) {
+        return 50;
+    }
     return 125;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    UITableViewCell *tableViewCell;
+    
+//    if (cell == nil) {
+//        NSLog(@"hogehoge");
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+//    }
+    
+    if (_hasMoreImages && indexPath.row >= _images.count) {
+        HTLoadMoreImageCell *cell = (HTLoadMoreImageCell*)[tableView dequeueReusableCellWithIdentifier:@"LoadMoreImageCell"];
+        tableViewCell = cell;
+    } else {
+        HTImageCell *cell = (HTImageCell *)[tableView dequeueReusableCellWithIdentifier:@"ImageCell"];
+        NSDictionary *imageInfo = _images[indexPath.row];
+        [cell setData:imageInfo];
+        tableViewCell = cell;
     }
-    
-    NSDictionary *imageInfo = _images[indexPath.row];
-    NSString *urlString = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_s.jpg", imageInfo[@"farm"], imageInfo[@"server"], imageInfo[@"id"], imageInfo[@"secret"]];
-    [cell.imageView setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"loading.gif"]];
-    cell.imageView.userInteractionEnabled = YES;
-    [cell.imageView.image setUrl:urlString];
-    cell.textLabel.text = imageInfo[@"title"];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    UITapGestureRecognizer *thumbnailTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-    thumbnailTapRecognizer.delegate = self;
-    [cell.imageView addGestureRecognizer:thumbnailTapRecognizer];
-
-    UITapGestureRecognizer *cellTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-    cellTapRecognizer.delegate = self;
-    [cell addGestureRecognizer:cellTapRecognizer];
-
-    return cell;
+    return tableViewCell;
 }
 
 #pragma mark delegate methods

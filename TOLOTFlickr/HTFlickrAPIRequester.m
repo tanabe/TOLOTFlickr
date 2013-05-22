@@ -81,11 +81,11 @@ static HTFlickrAPIRequester *instance;
     [_flickrAPIRequest fetchOAuthAccessTokenWithRequestToken:token verifier:verifier];
 }
 
-- (void) fetchImages:(fetchImagesCallback) callback {
+- (void) fetchImages:(NSInteger)perPage withPage:(NSInteger)page complete:(fetchImagesCallback)callback {
     kFetchImagesCallback = callback;
     _flickrAPIRequest.sessionInfo = fetchImagesStep;
     [_flickrAPIRequest callAPIMethodWithGET:@"flickr.photos.search"
-                                  arguments:@{@"user_id": @"me", @"media": @"photos"}];
+                                  arguments:@{@"user_id": @"me", @"media": @"photos", @"per_page": [NSString stringWithFormat:@"%ld", (long)perPage], @"page": [NSString stringWithFormat:@"%ld", (long)page]}];
 }
 
 
