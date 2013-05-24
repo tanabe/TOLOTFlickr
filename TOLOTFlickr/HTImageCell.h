@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AQGridViewCell.h"
 
-@interface HTImageCell : UITableViewCell
+@interface HTImageCell : UIView
 - (void) setData:(NSDictionary *)imageInfo;
 @end

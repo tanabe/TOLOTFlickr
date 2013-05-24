@@ -36,12 +36,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicator.hidesWhenStopped = YES;
+    activityIndicator.hidden = NO;
+    activityIndicator.center = self.view.center;
+    [self.view addSubview:activityIndicator];
+    [activityIndicator startAnimating];
+    
     __weak HTImageDetailViewController *weakSelf = self;
     _imageView.contentMode = UIViewContentModeCenter;
     [_imageView setImageWithURL:[NSURL URLWithString:_url]
-               placeholderImage:[UIImage imageNamed:@"loading.gif"]
+               placeholderImage:[UIImage imageNamed:nil]
      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
          weakSelf.imageView.contentMode = UIViewContentModeScaleAspectFit;
+         activityIndicator.hidden = YES;
      }];
 }
 

@@ -6,6 +6,12 @@
 // project.
 
 
+// AQGridView
+#define COCOAPODS_POD_AVAILABLE_AQGridView
+#define COCOAPODS_VERSION_MAJOR_AQGridView 1
+#define COCOAPODS_VERSION_MINOR_AQGridView 3
+#define COCOAPODS_VERSION_PATCH_AQGridView 0
+
 // ELCImagePickerController
 #define COCOAPODS_POD_AVAILABLE_ELCImagePickerController
 #define COCOAPODS_VERSION_MAJOR_ELCImagePickerController 0

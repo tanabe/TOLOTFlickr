@@ -10,46 +10,22 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 
 @interface HTImageCell() <UIGestureRecognizerDelegate>
-@property (strong, nonatomic) IBOutlet UIImageView *photoView;
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) NSDictionary *imageInfo;
 @end
 
 @implementation HTImageCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
 - (void) setData:(NSDictionary *)imageInfo {
     _imageInfo = imageInfo;
     NSString *urlString = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_s.jpg", imageInfo[@"farm"], imageInfo[@"server"], imageInfo[@"id"], imageInfo[@"secret"]];
-    [_photoView setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"loading.gif"]];
-    _photoView.userInteractionEnabled = YES;
 
-//    [cell.imageView.image setUrl:urlString];
-//     cell.textLabel.text = imageInfo[@"title"];
-//     cell.selectionStyle = UITableViewCellSelectionStyleNone;  
+    [_imageView setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"loading.gif"]];
+    _imageView.userInteractionEnabled = YES;
+    
      UITapGestureRecognizer *thumbnailTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
      thumbnailTapRecognizer.delegate = self;
-     [_photoView addGestureRecognizer:thumbnailTapRecognizer];
-//     
-//     UITapGestureRecognizer *cellTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-//     cellTapRecognizer.delegate = self;
-//     [cell addGestureRecognizer:cellTapRecognizer];
-    
-
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+     [_imageView addGestureRecognizer:thumbnailTapRecognizer];
 }
 
 #pragma mark delegate methods
@@ -59,6 +35,5 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"didThumbnailTapped" object:self userInfo:_imageInfo];
     }
 }
-
 
 @end

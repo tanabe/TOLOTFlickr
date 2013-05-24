@@ -25,6 +25,11 @@ install_resource()
       ;;
   esac
 }
+install_resource 'AQGridView/Resources/AQGridSelection.png'
+install_resource 'AQGridView/Resources/AQGridSelectionGray.png'
+install_resource 'AQGridView/Resources/AQGridSelectionGrayBlue.png'
+install_resource 'AQGridView/Resources/AQGridSelectionGreen.png'
+install_resource 'AQGridView/Resources/AQGridSelectionRed.png'
 install_resource 'ELCImagePickerController/Classes/ELCImagePicker/Resources/ELCAlbumPickerController.xib'
 install_resource 'ELCImagePickerController/Classes/ELCImagePicker/Resources/ELCAssetPicker.xib'
 install_resource 'ELCImagePickerController/Classes/ELCImagePicker/Resources/ELCAssetTablePicker.xib'
