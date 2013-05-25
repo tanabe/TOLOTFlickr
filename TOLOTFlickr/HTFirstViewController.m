@@ -11,11 +11,16 @@
 #import "HTImageDetailViewController.h"
 #import "HTLoadMoreImageCell.h"
 #import "HTImageCell.h"
+#import "HTImageEntity.h"
+
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <objc/runtime.h>
 #import "AQGridViewController.h"
+#import "SVProgressHUD.h"
 
 static NSInteger PER_PAGE = 100;
+static NSInteger CELL_WIDTH = 75;
+static NSInteger CELL_HEIGHT = 80;
 
 @interface UIImage (URL)
 @property (nonatomic) NSString *url;
@@ -56,10 +61,7 @@ static NSInteger PER_PAGE = 100;
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
                                                   usingBlock:^(NSNotification *note) {
-                                                      NSLog(@"%@", note.userInfo);
-                                                      NSDictionary *imageInfo = note.userInfo;
-                                                      NSString *url = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_b.jpg", imageInfo[@"farm"], imageInfo[@"server"], imageInfo[@"id"], imageInfo[@"secret"]];
-                                                      
+                                                      NSString *url = note.userInfo[@"largeURL"];
                                                       HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] initWithURL:url];
                                                       [self presentViewController:viewController animated:YES completion:nil];
                                         }];
@@ -72,8 +74,6 @@ static NSInteger PER_PAGE = 100;
     } else {
         [_flickrAPIRequester authorize];
     }
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,10 +81,32 @@ static NSInteger PER_PAGE = 100;
 }
 
 - (void) showImages {
+    [SVProgressHUD showWithStatus:@"読込中"];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [_flickrAPIRequester fetchImages:PER_PAGE withPage:0 complete:^(NSDictionary *response) {
-        [_images addObjectsFromArray:response[@"photos"][@"photo"]];
+        NSArray *photos = response[@"photos"][@"photo"];
+        for (NSInteger i = 0; i < photos.count; i++) {
+            NSDictionary *imageInfo = photos[i];
+            HTImageEntity *imageEntity = [[HTImageEntity alloc] initWithImageInfo:imageInfo];
+            
+            [imageEntity addObserver:self
+                           forKeyPath:@"selected"
+                              options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+                              context:nil];
+            
+            [_images addObject:imageEntity];
+        }
         [_gridView reloadData];
+        [SVProgressHUD dismiss];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary *)change
+                      context:(void *)context {
+    [_gridView reloadData];
 }
 
 #pragma mark delegates
@@ -110,7 +132,7 @@ static NSInteger PER_PAGE = 100;
 }
 
 - (CGSize) portraitGridCellSizeForGridView:(AQGridView *)gridView {
-    return CGSizeMake(75, 80);
+    return CGSizeMake(CELL_WIDTH, CELL_HEIGHT);
 }
 
 @end

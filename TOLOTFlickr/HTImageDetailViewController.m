@@ -33,10 +33,14 @@
     return self;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     activityIndicator.hidesWhenStopped = YES;
     activityIndicator.hidden = NO;
@@ -51,6 +55,7 @@
      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
          weakSelf.imageView.contentMode = UIViewContentModeScaleAspectFit;
          activityIndicator.hidden = YES;
+         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
      }];
 }
 

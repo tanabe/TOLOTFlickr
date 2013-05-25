@@ -7,33 +7,91 @@
 //
 
 #import "HTImageCell.h"
+#import "HTImageEntity.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 @interface HTImageCell() <UIGestureRecognizerDelegate>
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) NSDictionary *imageInfo;
+@property (strong, nonatomic) HTImageEntity *imageEntity;
+@property (strong, nonatomic) UIImageView *checkMarkImageView;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicatorView;
+@property BOOL initialized;
 @end
 
 @implementation HTImageCell
 
-- (void) setData:(NSDictionary *)imageInfo {
-    _imageInfo = imageInfo;
-    NSString *urlString = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_s.jpg", imageInfo[@"farm"], imageInfo[@"server"], imageInfo[@"id"], imageInfo[@"secret"]];
+//BUG too many called
+- (void) setData:(HTImageEntity *)imageEntity {
+    _imageEntity = imageEntity;
+    
+    if (_initialized) {
+    } else {
+        _activityIndicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleGray)];
+        [_activityIndicatorView startAnimating];
+        [_activityIndicatorView setCenter:self.center];
+        [self addSubview:_activityIndicatorView];
+        
+        _checkMarkImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"check.png"]];
+        
+        [self initGestureRecognizer];
+        [self initObserver];
+        
+        _initialized = YES;
+    }
 
-    [_imageView setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"loading.gif"]];
+    NSString *urlString = imageEntity.thumbnailURL;
+    __weak HTImageCell *that = self;
+    [_imageView setImageWithURL:[NSURL URLWithString:urlString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+        [that.activityIndicatorView removeFromSuperview];
+    }];
+    
+    [self updateCheckMark];
+}
+
+- (void) initGestureRecognizer {
     _imageView.userInteractionEnabled = YES;
     
-     UITapGestureRecognizer *thumbnailTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-     thumbnailTapRecognizer.delegate = self;
-     [_imageView addGestureRecognizer:thumbnailTapRecognizer];
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongTap:)];
+    longPressGestureRecognizer.delegate = self;
+    [_imageView addGestureRecognizer:longPressGestureRecognizer];
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
+    tapGestureRecognizer.delegate = self;
+    [_imageView addGestureRecognizer:tapGestureRecognizer];
+}
+
+- (void) initObserver {
+    [_imageEntity addObserver:self
+               forKeyPath:@"selected"
+                  options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+                  context:nil];
+}
+
+- (void) updateCheckMark {
+    if (_imageEntity.selected) {
+        [self addSubview:_checkMarkImageView];
+    } else {
+        [_checkMarkImageView removeFromSuperview];
+    }
 }
 
 #pragma mark delegate methods
 
--(void) handleTap:(UITapGestureRecognizer *)sender {
+-(void) didLongTap:(UILongPressGestureRecognizer *)sender {
     if ([sender.view isMemberOfClass:[UIImageView class]]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"didThumbnailTapped" object:self userInfo:_imageInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"didThumbnailTapped" object:self userInfo:@{@"largeURL": _imageEntity.largeURL}];
     }
+}
+
+- (void) didTap:(UITapGestureRecognizer *)sender {
+    _imageEntity.selected = _imageEntity.selected == YES ? NO : YES;
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary *)change
+                      context:(void *)context {
+    [self updateCheckMark];
 }
 
 @end

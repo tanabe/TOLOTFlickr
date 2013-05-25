@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "AQGridViewCell.h"
+#import "HTImageEntity.h"
 
 @interface HTImageCell : UIView
-- (void) setData:(NSDictionary *)imageInfo;
+- (void) setData:(HTImageEntity *)imageEntity;
 @end

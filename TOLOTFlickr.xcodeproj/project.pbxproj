@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		3F4DF8E9174524A900FAF065 /* HTFlickrAPIRequester.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F4DF8E8174524A900FAF065 /* HTFlickrAPIRequester.m */; };
-		3F79DE2A1747C97F007C137B /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3F79DE291747C97F007C137B /* loading.gif */; };
 		3F79DE331747CD81007C137B /* HTImageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F79DE311747CD81007C137B /* HTImageDetailViewController.m */; };
 		3F79DE341747CD81007C137B /* HTImageDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F79DE321747CD81007C137B /* HTImageDetailViewController.xib */; };
 		3F848E7E174D0A5400F3C629 /* HTLoadMoreImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F848E7D174D0A5400F3C629 /* HTLoadMoreImageCell.xib */; };
 		3F848E83174D0C3800F3C629 /* HTLoadMoreImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F848E82174D0C3800F3C629 /* HTLoadMoreImageCell.m */; };
 		3F848E86174D17FB00F3C629 /* HTImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F848E85174D17FB00F3C629 /* HTImageCell.m */; };
 		3F848E88174D181600F3C629 /* HTImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F848E87174D181600F3C629 /* HTImageCell.xib */; };
+		3FB3E7C5175042C800CF15FE /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB3E7C3175042C800CF15FE /* check.png */; };
+		3FB3E7C6175042C800CF15FE /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB3E7C4175042C800CF15FE /* check@2x.png */; };
+		3FB3E7C91750473400CF15FE /* HTImageEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB3E7C81750473400CF15FE /* HTImageEntity.m */; };
 		3FECD6C517427973002F92EE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6C417427973002F92EE /* UIKit.framework */; };
 		3FECD6C717427973002F92EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6C617427973002F92EE /* Foundation.framework */; };
 		3FECD6C917427973002F92EE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6C817427973002F92EE /* CoreGraphics.framework */; };
@@ -66,7 +68,6 @@
 		158CEE28E98A4062B2FBEAF6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F4DF8E7174524A900FAF065 /* HTFlickrAPIRequester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTFlickrAPIRequester.h; sourceTree = "<group>"; };
 		3F4DF8E8174524A900FAF065 /* HTFlickrAPIRequester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTFlickrAPIRequester.m; sourceTree = "<group>"; };
-		3F79DE291747C97F007C137B /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		3F79DE301747CD81007C137B /* HTImageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTImageDetailViewController.h; sourceTree = "<group>"; };
 		3F79DE311747CD81007C137B /* HTImageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTImageDetailViewController.m; sourceTree = "<group>"; };
 		3F79DE321747CD81007C137B /* HTImageDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HTImageDetailViewController.xib; sourceTree = "<group>"; };
@@ -76,6 +77,10 @@
 		3F848E84174D17FB00F3C629 /* HTImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTImageCell.h; sourceTree = "<group>"; };
 		3F848E85174D17FB00F3C629 /* HTImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTImageCell.m; sourceTree = "<group>"; };
 		3F848E87174D181600F3C629 /* HTImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HTImageCell.xib; sourceTree = "<group>"; };
+		3FB3E7C3175042C800CF15FE /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
+		3FB3E7C4175042C800CF15FE /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
+		3FB3E7C71750473400CF15FE /* HTImageEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTImageEntity.h; sourceTree = "<group>"; };
+		3FB3E7C81750473400CF15FE /* HTImageEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTImageEntity.m; sourceTree = "<group>"; };
 		3FECD6C117427973002F92EE /* TOLOTFlickr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOLOTFlickr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FECD6C417427973002F92EE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3FECD6C617427973002F92EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -126,7 +131,8 @@
 		3F4DF8E61745242300FAF065 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3F79DE291747C97F007C137B /* loading.gif */,
+				3FB3E7C3175042C800CF15FE /* check.png */,
+				3FB3E7C4175042C800CF15FE /* check@2x.png */,
 				3FECD6DF17427973002F92EE /* first.png */,
 				3FECD6E617427973002F92EE /* second.png */,
 				3FECD6E817427973002F92EE /* second@2x.png */,
@@ -192,6 +198,8 @@
 				3F79DE301747CD81007C137B /* HTImageDetailViewController.h */,
 				3F79DE311747CD81007C137B /* HTImageDetailViewController.m */,
 				3F79DE321747CD81007C137B /* HTImageDetailViewController.xib */,
+				3FB3E7C71750473400CF15FE /* HTImageEntity.h */,
+				3FB3E7C81750473400CF15FE /* HTImageEntity.m */,
 			);
 			path = TOLOTFlickr;
 			sourceTree = "<group>";
@@ -308,10 +316,11 @@
 				3FECD6E917427973002F92EE /* second@2x.png in Resources */,
 				3FECD6EC17427973002F92EE /* HTFirstViewController.xib in Resources */,
 				3FECD6EF17427973002F92EE /* HTSecondViewController.xib in Resources */,
-				3F79DE2A1747C97F007C137B /* loading.gif in Resources */,
 				3F79DE341747CD81007C137B /* HTImageDetailViewController.xib in Resources */,
 				3F848E7E174D0A5400F3C629 /* HTLoadMoreImageCell.xib in Resources */,
 				3F848E88174D181600F3C629 /* HTImageCell.xib in Resources */,
+				3FB3E7C5175042C800CF15FE /* check.png in Resources */,
+				3FB3E7C6175042C800CF15FE /* check@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +370,7 @@
 				3F79DE331747CD81007C137B /* HTImageDetailViewController.m in Sources */,
 				3F848E83174D0C3800F3C629 /* HTLoadMoreImageCell.m in Sources */,
 				3F848E86174D17FB00F3C629 /* HTImageCell.m in Sources */,
+				3FB3E7C91750473400CF15FE /* HTImageEntity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

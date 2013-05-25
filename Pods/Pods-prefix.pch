@@ -6,4 +6,12 @@
 
 
 
+#ifdef __OBJC__
+    #import "QuickDialog.h"
+#endif
+
+
+
+
+
 
