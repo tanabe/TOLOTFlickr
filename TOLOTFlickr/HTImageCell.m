@@ -25,6 +25,8 @@
     _imageEntity = imageEntity;
     
     if (_initialized) {
+        [_activityIndicatorView startAnimating];
+        _activityIndicatorView.hidden = NO;
     } else {
         _activityIndicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleGray)];
         [_activityIndicatorView startAnimating];
@@ -32,7 +34,7 @@
         [self addSubview:_activityIndicatorView];
         _checkMarkImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
         _checkMarkImageView.contentMode = UIViewContentModeBottomRight;
-        _checkMarkImageView.image = [UIImage imageNamed:@"check.png"];
+        _checkMarkImageView.image = [UIImage imageNamed:@"check"];
         
         [self initGestureRecognizer];
         [self initObserver];
@@ -43,7 +45,8 @@
     NSString *urlString = imageEntity.thumbnailURL;
     __weak HTImageCell *that = self;
     [_imageView setImageWithURL:[NSURL URLWithString:urlString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-        [that.activityIndicatorView removeFromSuperview];
+        [that.activityIndicatorView stopAnimating];
+        that.activityIndicatorView.hidden = YES;
     }];
     
     [self updateCheckMark];

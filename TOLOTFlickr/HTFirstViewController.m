@@ -22,6 +22,8 @@
 static NSInteger PER_PAGE = 100;
 static NSInteger CELL_WIDTH = 75;
 static NSInteger CELL_HEIGHT = 80;
+static NSInteger LOAD_BUTTON_HEIGHT = 40;
+static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
 
 @interface UIImage (URL)
 @property (nonatomic) NSString *url;
@@ -34,10 +36,13 @@ static NSInteger CELL_HEIGHT = 80;
 @property NSMutableArray *selectedImages;
 @property BOOL hasMoreImages;
 @property NSInteger pages;
-@property NSInteger lastPage;
+@property NSInteger currentPage;
+@property (strong, nonatomic) UIButton *loadMoreImagesButton;
 @property (strong, nonatomic) IBOutlet AQGridView *gridView;
 @property (strong, nonatomic) IBOutlet HTImageCell *gridViewCellContent;
 @property (strong, nonatomic) IBOutlet HTLoadMoreImageCell *loadMoreImageCellContent;
+@property (strong, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *createButton;
 
 
 @end
@@ -46,7 +51,7 @@ static NSInteger CELL_HEIGHT = 80;
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"First", @"First");
+        self.title = @"写真を選ぶ";
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
     }
     return self;
@@ -54,22 +59,19 @@ static NSInteger CELL_HEIGHT = 80;
 							
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _lastPage = 1;
+    
+    _createButton.enabled = NO;
+    
+    _currentPage = 1;
     _images = [NSMutableArray array];
     _selectedImages = [NSMutableArray array];
     _hasMoreImages = YES;
     _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"didThumbnailTapped"
-                                                      object:nil
-                                                       queue:[NSOperationQueue mainQueue]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      NSString *url = note.userInfo[@"largeURL"];
-                                                      HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] initWithURL:url];
-                                                      [self presentViewController:viewController animated:YES completion:nil];
-                                        }];
     _gridView.delegate = self;
     _gridView.dataSource = self;
     [_gridView reloadData];
+    [self updateTitle];
+    [self initializeNotificationCenter];
     
     if (_flickrAPIRequester.hasAuthorized) {
         [self showImages];
@@ -78,14 +80,37 @@ static NSInteger CELL_HEIGHT = 80;
     }
 }
 
+- (void) initializeNotificationCenter {
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"didThumbnailTapped"
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      NSString *url = note.userInfo[@"largeURL"];
+                                                      HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] initWithURL:url];
+                                                      [self presentViewController:viewController animated:YES completion:nil];
+                                                  }];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void) updateTitle {
+    _navigationBar.topItem.title = [NSString stringWithFormat:TITLE_FORMAT, _selectedImages.count];
+}
+
+- (void) updateCreateButton {
+    if (_selectedImages.count > 0) {
+        _createButton.enabled = YES;
+    } else {
+        _createButton.enabled = NO;
+    }
 }
 
 - (void) showImages {
     [SVProgressHUD showWithStatus:@"読込中"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [_flickrAPIRequester fetchImages:PER_PAGE withPage:0 complete:^(NSDictionary *response) {
+    [_flickrAPIRequester fetchImages:PER_PAGE withPage:_currentPage complete:^(NSDictionary *response) {
         _pages = [response[@"photos"][@"pages"] intValue];
         NSLog(@"%d", _pages);
         //NSLog(@"%@", response);
@@ -101,13 +126,16 @@ static NSInteger CELL_HEIGHT = 80;
             
             [_images addObject:imageEntity];
         }
-        //NSLog(@"%d", _images.count);
+
         [_gridView reloadData];
         [SVProgressHUD dismiss];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
-        if (_lastPage < _pages) {
+        if (_currentPage < _pages) {
             [self showLoadMoreImagesButton];
+            [self adjustGridViewHeight];
+        } else {
+            [_loadMoreImagesButton removeFromSuperview];
         }
     }];
 }
@@ -116,16 +144,45 @@ static NSInteger CELL_HEIGHT = 80;
                      ofObject:(id)object
                        change:(NSDictionary *)change
                       context:(void *)context {
+    _selectedImages = [[NSMutableArray alloc] init];
+    for (HTImageEntity *imageEntity in _images) {
+        if (imageEntity.selected) {
+            [_selectedImages addObject:imageEntity];
+        }
+    }
+    CGPoint lastOffset = _gridView.contentOffset;
     [_gridView reloadData];
+    [self adjustGridViewHeight];
+    _gridView.contentOffset = lastOffset;
+    
+    [self updateTitle];
+    [self updateCreateButton];
 }
 
 - (void) showLoadMoreImagesButton {
-    UIView *loadMoreImagesButton = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
-    loadMoreImagesButton.backgroundColor = [UIColor yellowColor];
-    [_gridView addSubview:loadMoreImagesButton];
+    NSInteger gridViewContentHeight = _images.count / 4 * CELL_HEIGHT;
+    
+    [_loadMoreImagesButton removeFromSuperview];
+    _loadMoreImagesButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _loadMoreImagesButton.frame = CGRectMake(0, gridViewContentHeight, self.view.frame.size.width, LOAD_BUTTON_HEIGHT);
+    [_loadMoreImagesButton setTitle:@"さらに100枚読み込む" forState:UIControlStateNormal];
+    [_gridView addSubview:_loadMoreImagesButton];
+    [_loadMoreImagesButton addTarget:self action:@selector(didTapLoadMoreImagesButton:) forControlEvents:UIControlEventTouchUpInside ];
+    _loadMoreImagesButton.enabled = YES;
+}
+
+- (void)adjustGridViewHeight {
+    NSInteger gridViewContentHeight = _images.count / 4 * CELL_HEIGHT;
+    _gridView.contentSize = CGSizeMake(self.view.frame.size.width, gridViewContentHeight + LOAD_BUTTON_HEIGHT);
 }
 
 #pragma mark delegates
+
+- (void)didTapLoadMoreImagesButton:(id)sender {
+    _currentPage++;
+    [self showImages];
+    _loadMoreImagesButton.enabled = NO;
+}
 
 - (NSUInteger) numberOfItemsInGridView:(AQGridView *)gridView {
     return _images.count;
@@ -150,6 +207,10 @@ static NSInteger CELL_HEIGHT = 80;
 
 - (CGSize) portraitGridCellSizeForGridView:(AQGridView *)gridView {
     return CGSizeMake(CELL_WIDTH, CELL_HEIGHT);
+}
+
+- (IBAction)didTapCreateButton:(id)sender {
+    NSLog(@"hello");
 }
 
 @end
