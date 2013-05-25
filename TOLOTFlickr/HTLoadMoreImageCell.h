@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HTLoadMoreImageCell : UITableViewCell
+@interface HTLoadMoreImageCell : UIView
 
 @end

@@ -30,8 +30,9 @@
         [_activityIndicatorView startAnimating];
         [_activityIndicatorView setCenter:self.center];
         [self addSubview:_activityIndicatorView];
-        
-        _checkMarkImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"check.png"]];
+        _checkMarkImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
+        _checkMarkImageView.contentMode = UIViewContentModeBottomRight;
+        _checkMarkImageView.image = [UIImage imageNamed:@"check.png"];
         
         [self initGestureRecognizer];
         [self initObserver];

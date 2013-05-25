@@ -11,6 +11,7 @@
 #import "HTImageDetailViewController.h"
 #import "HTLoadMoreImageCell.h"
 #import "HTImageCell.h"
+#import "HTLoadMoreImageCell.h"
 #import "HTImageEntity.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -32,8 +33,12 @@ static NSInteger CELL_HEIGHT = 80;
 @property NSMutableArray *images;
 @property NSMutableArray *selectedImages;
 @property BOOL hasMoreImages;
+@property NSInteger pages;
+@property NSInteger lastPage;
 @property (strong, nonatomic) IBOutlet AQGridView *gridView;
 @property (strong, nonatomic) IBOutlet HTImageCell *gridViewCellContent;
+@property (strong, nonatomic) IBOutlet HTLoadMoreImageCell *loadMoreImageCellContent;
+
 
 @end
 
@@ -49,14 +54,11 @@ static NSInteger CELL_HEIGHT = 80;
 							
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    _lastPage = 1;
     _images = [NSMutableArray array];
     _selectedImages = [NSMutableArray array];
-    
     _hasMoreImages = YES;
-  
     _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
-    
     [[NSNotificationCenter defaultCenter] addObserverForName:@"didThumbnailTapped"
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
@@ -84,6 +86,9 @@ static NSInteger CELL_HEIGHT = 80;
     [SVProgressHUD showWithStatus:@"読込中"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [_flickrAPIRequester fetchImages:PER_PAGE withPage:0 complete:^(NSDictionary *response) {
+        _pages = [response[@"photos"][@"pages"] intValue];
+        NSLog(@"%d", _pages);
+        //NSLog(@"%@", response);
         NSArray *photos = response[@"photos"][@"photo"];
         for (NSInteger i = 0; i < photos.count; i++) {
             NSDictionary *imageInfo = photos[i];
@@ -96,9 +101,14 @@ static NSInteger CELL_HEIGHT = 80;
             
             [_images addObject:imageEntity];
         }
+        //NSLog(@"%d", _images.count);
         [_gridView reloadData];
         [SVProgressHUD dismiss];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+        if (_lastPage < _pages) {
+            [self showLoadMoreImagesButton];
+        }
     }];
 }
 
@@ -109,6 +119,12 @@ static NSInteger CELL_HEIGHT = 80;
     [_gridView reloadData];
 }
 
+- (void) showLoadMoreImagesButton {
+    UIView *loadMoreImagesButton = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
+    loadMoreImagesButton.backgroundColor = [UIColor yellowColor];
+    [_gridView addSubview:loadMoreImagesButton];
+}
+
 #pragma mark delegates
 
 - (NSUInteger) numberOfItemsInGridView:(AQGridView *)gridView {
@@ -117,16 +133,17 @@ static NSInteger CELL_HEIGHT = 80;
 
 - (AQGridViewCell *)gridView:(AQGridView *)gridView cellForItemAtIndex:(NSUInteger)index {
 	static NSString *CellIdentifier = @"ReusableGridViewCell";
-	AQGridViewCell *cell = (AQGridViewCell *)[gridView dequeueReusableCellWithIdentifier:CellIdentifier];
-	if (cell == nil) {
-		[[NSBundle mainBundle] loadNibNamed:@"HTImageCell" owner:self options:nil];
-		cell = [[AQGridViewCell alloc] initWithFrame:_gridViewCellContent.frame
-									  reuseIdentifier:CellIdentifier];
-		[cell.contentView addSubview:_gridViewCellContent];
-		cell.selectionStyle = AQGridViewCellSelectionStyleNone;
-	}
-	
-	HTImageCell *content = (HTImageCell *)[cell.contentView viewWithTag:1];
+    AQGridViewCell *cell;
+    cell = (AQGridViewCell *)[gridView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"HTImageCell" owner:self options:nil];
+        cell = [[AQGridViewCell alloc] initWithFrame:_gridViewCellContent.frame
+                                     reuseIdentifier:CellIdentifier];
+        [cell.contentView addSubview:_gridViewCellContent];
+        cell.selectionStyle = AQGridViewCellSelectionStyleNone;
+    }
+
+    HTImageCell *content = (HTImageCell *)[cell.contentView viewWithTag:1];
     [content setData:_images[index]];
 	return cell;
 }
