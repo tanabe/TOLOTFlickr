@@ -13,6 +13,7 @@
 #import "HTImageCell.h"
 #import "HTLoadMoreImageCell.h"
 #import "HTImageEntity.h"
+#import "HTTolotConnector.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <objc/runtime.h>
@@ -37,6 +38,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
 @property BOOL hasMoreImages;
 @property NSInteger pages;
 @property NSInteger currentPage;
+
 @property (strong, nonatomic) UIButton *loadMoreImagesButton;
 @property (strong, nonatomic) IBOutlet AQGridView *gridView;
 @property (strong, nonatomic) IBOutlet HTImageCell *gridViewCellContent;
@@ -85,8 +87,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
                                                   usingBlock:^(NSNotification *note) {
-                                                      NSString *url = note.userInfo[@"largeURL"];
-                                                      HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] initWithURL:url];
+                                                      HTImageDetailViewController *viewController = [[HTImageDetailViewController alloc] initWithImageInfo:note.userInfo];
                                                       [self presentViewController:viewController animated:YES completion:nil];
                                                   }];
 }
@@ -210,7 +211,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
 }
 
 - (IBAction)didTapCreateButton:(id)sender {
-    NSLog(@"hello");
+    [HTTolotConnector openTolotApplication];
 }
 
 @end

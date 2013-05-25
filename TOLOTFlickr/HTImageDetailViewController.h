@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HTImageDetailViewController : UIViewController
-- (id) initWithURL:(NSString *)url;
+- (id) initWithImageInfo:(NSDictionary *)imageInfo;
 @end

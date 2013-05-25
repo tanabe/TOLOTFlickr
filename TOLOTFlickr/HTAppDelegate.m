@@ -22,14 +22,22 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     _firstViewController = [[HTFirstViewController alloc] initWithNibName:@"HTFirstViewController" bundle:nil];
     _secondViewController = [[HTSecondViewController alloc] initWithNibName:@"HTSecondViewController" bundle:nil];
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = @[_firstViewController, _secondViewController];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
+    //[self createAd];
     return YES;
+}
+
+- (void) createAd {
+    /*
+    UIView *adView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, self.tabBarController.view.frame.size.width, 50)];
+    adView.backgroundColor = [UIColor purpleColor];
+    [self.tabBarController.view addSubview:adView];
+     */
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

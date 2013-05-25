@@ -17,6 +17,7 @@
 		3FB3E7C5175042C800CF15FE /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB3E7C3175042C800CF15FE /* check.png */; };
 		3FB3E7C6175042C800CF15FE /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB3E7C4175042C800CF15FE /* check@2x.png */; };
 		3FB3E7C91750473400CF15FE /* HTImageEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB3E7C81750473400CF15FE /* HTImageEntity.m */; };
+		3FBC18C317511307003EC005 /* HTTolotConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FBC18C217511307003EC005 /* HTTolotConnector.m */; };
 		3FECD6C517427973002F92EE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6C417427973002F92EE /* UIKit.framework */; };
 		3FECD6C717427973002F92EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6C617427973002F92EE /* Foundation.framework */; };
 		3FECD6C917427973002F92EE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6C817427973002F92EE /* CoreGraphics.framework */; };
@@ -81,6 +82,8 @@
 		3FB3E7C4175042C800CF15FE /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
 		3FB3E7C71750473400CF15FE /* HTImageEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTImageEntity.h; sourceTree = "<group>"; };
 		3FB3E7C81750473400CF15FE /* HTImageEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTImageEntity.m; sourceTree = "<group>"; };
+		3FBC18C117511307003EC005 /* HTTolotConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTolotConnector.h; sourceTree = "<group>"; };
+		3FBC18C217511307003EC005 /* HTTolotConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTolotConnector.m; sourceTree = "<group>"; };
 		3FECD6C117427973002F92EE /* TOLOTFlickr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOLOTFlickr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FECD6C417427973002F92EE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3FECD6C617427973002F92EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -200,6 +203,8 @@
 				3F79DE321747CD81007C137B /* HTImageDetailViewController.xib */,
 				3FB3E7C71750473400CF15FE /* HTImageEntity.h */,
 				3FB3E7C81750473400CF15FE /* HTImageEntity.m */,
+				3FBC18C117511307003EC005 /* HTTolotConnector.h */,
+				3FBC18C217511307003EC005 /* HTTolotConnector.m */,
 			);
 			path = TOLOTFlickr;
 			sourceTree = "<group>";
@@ -371,6 +376,7 @@
 				3F848E83174D0C3800F3C629 /* HTLoadMoreImageCell.m in Sources */,
 				3F848E86174D17FB00F3C629 /* HTImageCell.m in Sources */,
 				3FB3E7C91750473400CF15FE /* HTImageEntity.m in Sources */,
+				3FBC18C317511307003EC005 /* HTTolotConnector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

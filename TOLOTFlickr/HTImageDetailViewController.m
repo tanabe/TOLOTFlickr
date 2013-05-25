@@ -9,10 +9,13 @@
 #import "HTImageDetailViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-@interface HTImageDetailViewController ()
+@interface HTImageDetailViewController () <UIScrollViewDelegate>
+@property (strong, nonatomic) IBOutlet UINavigationItem *navigationBar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *closeButton;
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property NSString *url;
+@property NSString *imageTitle;
 @end
 
 @implementation HTImageDetailViewController
@@ -26,9 +29,10 @@
     return self;
 }
 
-- (id) initWithURL:(NSString *)url {
+- (id) initWithImageInfo:(NSDictionary *)imageInfo {
     if((self = [super init]) != nil) {
-        _url = url;
+        _url = imageInfo[@"largeURL"];
+        _imageTitle = imageInfo[@"title"];
     }
     return self;
 }
@@ -41,22 +45,24 @@
 {
     [super viewDidLoad];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    activityIndicator.hidesWhenStopped = YES;
-    activityIndicator.hidden = NO;
-    activityIndicator.center = self.view.center;
-    [self.view addSubview:activityIndicator];
-    [activityIndicator startAnimating];
-    
-    __weak HTImageDetailViewController *weakSelf = self;
+    _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    _activityIndicator.hidesWhenStopped = YES;
+    _activityIndicator.hidden = NO;
+    _activityIndicator.center = self.view.center;
+    [self.view addSubview:_activityIndicator];
+    [_activityIndicator startAnimating];
+    __weak HTImageDetailViewController *that = self;
     _imageView.contentMode = UIViewContentModeCenter;
     [_imageView setImageWithURL:[NSURL URLWithString:_url]
                placeholderImage:[UIImage imageNamed:nil]
      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-         weakSelf.imageView.contentMode = UIViewContentModeScaleAspectFit;
-         activityIndicator.hidden = YES;
+         that.imageView.contentMode = UIViewContentModeScaleAspectFit;
+         that.activityIndicator.hidden = YES;
+         [that.activityIndicator removeFromSuperview];
          [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
      }];
+    
+    _navigationBar.title = _imageTitle;
 }
 
 - (void)didReceiveMemoryWarning

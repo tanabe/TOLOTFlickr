@@ -83,7 +83,7 @@
 
 -(void) didLongTap:(UILongPressGestureRecognizer *)sender {
     if ([sender.view isMemberOfClass:[UIImageView class]]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"didThumbnailTapped" object:self userInfo:@{@"largeURL": _imageEntity.largeURL}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"didThumbnailTapped" object:self userInfo:@{@"largeURL": _imageEntity.largeURL, @"title": _imageEntity.title}];
     }
 }
 
