@@ -54,7 +54,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"写真を選ぶ";
-        self.tabBarItem.image = [UIImage imageNamed:@"first"];
+        self.tabBarItem.image = [UIImage imageNamed:@"photos"];
     }
     return self;
 }
@@ -211,7 +211,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
 }
 
 - (IBAction)didTapCreateButton:(id)sender {
-    [HTTolotConnector openTolotApplication];
+    [HTTolotConnector openTolotApplication:_selectedImages];
 }
 
 @end

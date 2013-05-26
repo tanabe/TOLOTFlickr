@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface HTTolotConnector : NSObject
-+ (void) openTolotApplication;
++ (void) openTolotApplication:(NSMutableArray *)images;
 @end
