@@ -41,7 +41,6 @@ static HTFlickrAPIRequester *instance;
 - (id) init {
     self = [super init];
     if (self != nil) {
-        _hasAuthorized = NO;
         _flickrContext = [[OFFlickrAPIContext alloc] initWithAPIKey:OBJECTIVE_FLICKR_API_KEY
                                                        sharedSecret:OBJECTIVE_FLICKR_API_SHARED_SECRET];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -50,10 +49,7 @@ static HTFlickrAPIRequester *instance;
         if (([authToken length] > 0) && ([authTokenSecret length] > 0)) {
             _flickrContext.OAuthToken = authToken;
             _flickrContext.OAuthTokenSecret = authTokenSecret;
-            _hasAuthorized = YES;
         }
-        //cancel authorize
-        //[self setAndStoreFlickrAuthToken:nil secret:nil];
         _flickrAPIRequest = [[OFFlickrAPIRequest alloc] initWithAPIContext:_flickrContext];
         _flickrAPIRequest.delegate = self;
     }
@@ -65,6 +61,22 @@ static HTFlickrAPIRequester *instance;
     _flickrAPIRequest.requestTimeoutInterval = 60.0;
     _flickrAPIRequest.sessionInfo = fetchRequestTokenStep;
     [_flickrAPIRequest fetchOAuthRequestTokenWithCallbackURL:[NSURL URLWithString:callbackURLBaseString]];
+}
+
+- (void) logout {
+    _flickrContext.OAuthToken = nil;
+    _flickrContext.OAuthTokenSecret = nil;
+    [self removeStoredKeys];
+}
+
+- (BOOL) hasAuthorized {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *authToken = [userDefaults objectForKey:storedAuthTokenKeyName];
+    NSString *authTokenSecret = [userDefaults objectForKey:storedAuthTokenSecretKeyName];
+    if (([authToken length] > 0) && ([authTokenSecret length] > 0)) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void) fetchAccessToken:url complete:(fetchAccessTokenCallback)callback {
@@ -115,19 +127,24 @@ static HTFlickrAPIRequester *instance;
     [[UIApplication sharedApplication] openURL:authURL];
 }
 
+- (void) removeStoredKeys {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:storedAuthTokenKeyName];
+    [userDefaults removeObjectForKey:storedAuthTokenSecretKeyName];
+    [userDefaults synchronize];
+}
 
 - (void) setAndStoreFlickrAuthToken:(NSString *)inAuthToken secret:(NSString *)inSecret {
 	if (![inAuthToken length] || ![inSecret length]) {
-		_flickrContext.OAuthToken = nil;
-        _flickrContext.OAuthTokenSecret = nil;
-		[[NSUserDefaults standardUserDefaults] removeObjectForKey:storedAuthTokenKeyName];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:storedAuthTokenSecretKeyName];
+		[self logout];
 	} else {
         NSLog(@"store");
 		_flickrContext.OAuthToken = inAuthToken;
         _flickrContext.OAuthTokenSecret = inSecret;
-		[[NSUserDefaults standardUserDefaults] setObject:inAuthToken forKey:storedAuthTokenKeyName];
-		[[NSUserDefaults standardUserDefaults] setObject:inSecret forKey:storedAuthTokenSecretKeyName];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+		[userDefaults setObject:inAuthToken forKey:storedAuthTokenKeyName];
+		[userDefaults setObject:inSecret forKey:storedAuthTokenSecretKeyName];
+        [userDefaults synchronize];
 	}
 }
 

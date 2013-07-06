@@ -20,11 +20,11 @@
 #import "AQGridViewController.h"
 #import "SVProgressHUD.h"
 
-static NSInteger PER_PAGE = 100;
-static NSInteger CELL_WIDTH = 75;
+static NSInteger PER_PAGE    = 100;
+static NSInteger CELL_WIDTH  = 75;
 static NSInteger CELL_HEIGHT = 80;
 static NSInteger LOAD_BUTTON_HEIGHT = 40;
-static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
+static NSString *TITLE_FORMAT = @"%d/62枚選択";
 
 @interface UIImage (URL)
 @property (nonatomic) NSString *url;
@@ -45,6 +45,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
 @property (strong, nonatomic) IBOutlet HTLoadMoreImageCell *loadMoreImageCellContent;
 @property (strong, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *createButton;
+@property (strong, nonatomic) IBOutlet UIButton *flickrLoginButton;
 
 
 @end
@@ -58,28 +59,39 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
     }
     return self;
 }
+
+- (void) viewWillAppear:(BOOL)animated {
+    if (![_flickrAPIRequester hasAuthorized]) {
+        [self reset];
+        _flickrLoginButton.hidden = NO;
+    }
+}
 							
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
     
+    [self reset];
+    [self updateTitle];
+    [self initializeNotificationCenter];
+    
+    if ([_flickrAPIRequester hasAuthorized]) {
+        _flickrLoginButton.hidden = YES;
+        [self showImages];
+    } else {
+        _flickrLoginButton.hidden = NO;
+    }
+}
+
+- (void) reset {
     _createButton.enabled = NO;
-    
     _currentPage = 1;
     _images = [NSMutableArray array];
     _selectedImages = [NSMutableArray array];
     _hasMoreImages = YES;
-    _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
     _gridView.delegate = self;
     _gridView.dataSource = self;
     [_gridView reloadData];
-    [self updateTitle];
-    [self initializeNotificationCenter];
-    
-    if (_flickrAPIRequester.hasAuthorized) {
-        [self showImages];
-    } else {
-        [_flickrAPIRequester authorize];
-    }
 }
 
 - (void) initializeNotificationCenter {
@@ -109,6 +121,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
 }
 
 - (void) showImages {
+    _flickrLoginButton.hidden = YES;
     [SVProgressHUD showWithStatus:@"読込中"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [_flickrAPIRequester fetchImages:PER_PAGE withPage:_currentPage complete:^(NSDictionary *response) {
@@ -146,11 +159,13 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
                        change:(NSDictionary *)change
                       context:(void *)context {
     _selectedImages = [[NSMutableArray alloc] init];
+    
     for (HTImageEntity *imageEntity in _images) {
         if (imageEntity.selected) {
             [_selectedImages addObject:imageEntity];
         }
     }
+    
     CGPoint lastOffset = _gridView.contentOffset;
     [_gridView reloadData];
     [self adjustGridViewHeight];
@@ -212,6 +227,25 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択済み";
 
 - (IBAction)didTapCreateButton:(id)sender {
     [HTTolotConnector openTolotApplication:_selectedImages];
+}
+
+- (IBAction)didTapClearButton:(id)sender {
+    _selectedImages = [[NSMutableArray alloc] init];
+    for (HTImageEntity *imageEntity in _images) {
+        imageEntity.selected = NO;
+    }
+    CGPoint lastOffset = _gridView.contentOffset;
+    [_gridView reloadData];
+    [self adjustGridViewHeight];
+    _gridView.contentOffset = lastOffset;
+    
+    [self updateTitle];
+    [self updateCreateButton];
+
+}
+
+- (IBAction)didTapFlickrLoginButton:(id)sender {
+    [_flickrAPIRequester authorize];
 }
 
 @end

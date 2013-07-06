@@ -23,7 +23,9 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _firstViewController = [[HTFirstViewController alloc] initWithNibName:@"HTFirstViewController" bundle:nil];
+    
     _secondViewController = [[HTSecondViewController alloc] initWithNibName:@"HTSecondViewController" bundle:nil];
+    
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = @[_firstViewController, _secondViewController];
     self.window.rootViewController = self.tabBarController;
