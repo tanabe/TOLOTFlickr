@@ -1,5 +1,5 @@
 //
-//  HTFirstViewController.h
+//  HTConfigViewController.h
 //  TOLOTFlickr
 //
 //  Created by tanabe on 13/05/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HTFirstViewController : UIViewController
-- (void) showImages;
+@interface HTConfigViewController : UIViewController
+
 @end

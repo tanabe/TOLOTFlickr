@@ -1,20 +1,20 @@
 //
-//  HTSecondViewController.m
+//  HTConfigViewController.m
 //  TOLOTFlickr
 //
 //  Created by tanabe on 13/05/14.
 //  Copyright (c) 2013年 Hideaki Tanabe. All rights reserved.
 //
 
-#import "HTSecondViewController.h"
+#import "HTConfigViewController.h"
 #import "HTFlickrAPIRequester.h"
 
-@interface HTSecondViewController ()
+@interface HTConfigViewController ()
 
 @property HTFlickrAPIRequester *flickrAPIRequester;
 @end
 
-@implementation HTSecondViewController
+@implementation HTConfigViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

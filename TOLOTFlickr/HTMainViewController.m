@@ -1,12 +1,12 @@
 //
-//  HTFirstViewController.m
+//  HTMainViewController.m
 //  TOLOTFlickr
 //
 //  Created by tanabe on 13/05/14.
 //  Copyright (c) 2013年 Hideaki Tanabe. All rights reserved.
 //
 
-#import "HTFirstViewController.h"
+#import "HTMainViewController.h"
 #import "HTFlickrAPIRequester.h"
 #import "HTImageDetailViewController.h"
 #import "HTLoadMoreImageCell.h"
@@ -30,7 +30,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 @property (nonatomic) NSString *url;
 @end
 
-@interface HTFirstViewController () <AQGridViewDataSource, AQGridViewDelegate>
+@interface HTMainViewController () <AQGridViewDataSource, AQGridViewDelegate>
 @property HTFlickrAPIRequester *flickrAPIRequester;
 
 @property NSMutableArray *images;
@@ -50,7 +50,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 
 @end
 
-@implementation HTFirstViewController
+@implementation HTMainViewController
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {

@@ -1,5 +1,5 @@
 //
-//  HTSecondViewController.h
+//  HTMainViewController.h
 //  TOLOTFlickr
 //
 //  Created by tanabe on 13/05/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HTSecondViewController : UIViewController
-
+@interface HTMainViewController : UIViewController
+- (void) showImages;
 @end

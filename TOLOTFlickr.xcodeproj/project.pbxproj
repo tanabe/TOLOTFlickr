@@ -31,14 +31,14 @@
 		3FECD6D717427973002F92EE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6D617427973002F92EE /* Default.png */; };
 		3FECD6D917427973002F92EE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6D817427973002F92EE /* Default@2x.png */; };
 		3FECD6DB17427973002F92EE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6DA17427973002F92EE /* Default-568h@2x.png */; };
-		3FECD6DE17427973002F92EE /* HTFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FECD6DD17427973002F92EE /* HTFirstViewController.m */; };
+		3FECD6DE17427973002F92EE /* HTMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FECD6DD17427973002F92EE /* HTMainViewController.m */; };
 		3FECD6E017427973002F92EE /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6DF17427973002F92EE /* first.png */; };
 		3FECD6E217427973002F92EE /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6E117427973002F92EE /* first@2x.png */; };
-		3FECD6E517427973002F92EE /* HTSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FECD6E417427973002F92EE /* HTSecondViewController.m */; };
+		3FECD6E517427973002F92EE /* HTConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FECD6E417427973002F92EE /* HTConfigViewController.m */; };
 		3FECD6E717427973002F92EE /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6E617427973002F92EE /* second.png */; };
 		3FECD6E917427973002F92EE /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6E817427973002F92EE /* second@2x.png */; };
-		3FECD6EC17427973002F92EE /* HTFirstViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6EA17427973002F92EE /* HTFirstViewController.xib */; };
-		3FECD6EF17427973002F92EE /* HTSecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6ED17427973002F92EE /* HTSecondViewController.xib */; };
+		3FECD6EC17427973002F92EE /* HTMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6EA17427973002F92EE /* HTMainViewController.xib */; };
+		3FECD6EF17427973002F92EE /* HTConfigViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FECD6ED17427973002F92EE /* HTConfigViewController.xib */; };
 		3FECD6F917427B41002F92EE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6F817427B41002F92EE /* SystemConfiguration.framework */; };
 		3FECD6FB17427B46002F92EE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6FA17427B46002F92EE /* CFNetwork.framework */; };
 		3FECD73A17428189002F92EE /* libObjectiveFlickr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD72C17427E00002F92EE /* libObjectiveFlickr.a */; };
@@ -104,16 +104,16 @@
 		3FECD6D617427973002F92EE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		3FECD6D817427973002F92EE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		3FECD6DA17427973002F92EE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		3FECD6DC17427973002F92EE /* HTFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTFirstViewController.h; sourceTree = "<group>"; };
-		3FECD6DD17427973002F92EE /* HTFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTFirstViewController.m; sourceTree = "<group>"; };
+		3FECD6DC17427973002F92EE /* HTMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMainViewController.h; sourceTree = "<group>"; };
+		3FECD6DD17427973002F92EE /* HTMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMainViewController.m; sourceTree = "<group>"; };
 		3FECD6DF17427973002F92EE /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		3FECD6E117427973002F92EE /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		3FECD6E317427973002F92EE /* HTSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTSecondViewController.h; sourceTree = "<group>"; };
-		3FECD6E417427973002F92EE /* HTSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTSecondViewController.m; sourceTree = "<group>"; };
+		3FECD6E317427973002F92EE /* HTConfigViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTConfigViewController.h; sourceTree = "<group>"; };
+		3FECD6E417427973002F92EE /* HTConfigViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTConfigViewController.m; sourceTree = "<group>"; };
 		3FECD6E617427973002F92EE /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		3FECD6E817427973002F92EE /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
-		3FECD6F51742797D002F92EE /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/HTFirstViewController.xib; sourceTree = "<group>"; };
-		3FECD6F61742797D002F92EE /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/HTSecondViewController.xib; sourceTree = "<group>"; };
+		3FECD6F51742797D002F92EE /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/HTMainViewController.xib; sourceTree = "<group>"; };
+		3FECD6F61742797D002F92EE /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/HTConfigViewController.xib; sourceTree = "<group>"; };
 		3FECD6F71742797E002F92EE /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3FECD6F817427B41002F92EE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3FECD6FA17427B46002F92EE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -196,18 +196,18 @@
 				3FECD6CB17427973002F92EE /* Supporting Files */,
 				3FECD6D317427973002F92EE /* HTAppDelegate.h */,
 				3FECD6D417427973002F92EE /* HTAppDelegate.m */,
-				3FECD6EA17427973002F92EE /* HTFirstViewController.xib */,
-				3FECD6DC17427973002F92EE /* HTFirstViewController.h */,
-				3FECD6DD17427973002F92EE /* HTFirstViewController.m */,
+				3FECD6EA17427973002F92EE /* HTMainViewController.xib */,
+				3FECD6DC17427973002F92EE /* HTMainViewController.h */,
+				3FECD6DD17427973002F92EE /* HTMainViewController.m */,
 				3F848E84174D17FB00F3C629 /* HTImageCell.h */,
 				3F848E85174D17FB00F3C629 /* HTImageCell.m */,
 				3F848E87174D181600F3C629 /* HTImageCell.xib */,
 				3F848E7D174D0A5400F3C629 /* HTLoadMoreImageCell.xib */,
 				3F848E81174D0C3800F3C629 /* HTLoadMoreImageCell.h */,
 				3F848E82174D0C3800F3C629 /* HTLoadMoreImageCell.m */,
-				3FECD6E317427973002F92EE /* HTSecondViewController.h */,
-				3FECD6E417427973002F92EE /* HTSecondViewController.m */,
-				3FECD6ED17427973002F92EE /* HTSecondViewController.xib */,
+				3FECD6E317427973002F92EE /* HTConfigViewController.h */,
+				3FECD6E417427973002F92EE /* HTConfigViewController.m */,
+				3FECD6ED17427973002F92EE /* HTConfigViewController.xib */,
 				3F4DF8E7174524A900FAF065 /* HTFlickrAPIRequester.h */,
 				3F4DF8E8174524A900FAF065 /* HTFlickrAPIRequester.m */,
 				3F79DE301747CD81007C137B /* HTImageDetailViewController.h */,
@@ -331,8 +331,8 @@
 				3FECD6E217427973002F92EE /* first@2x.png in Resources */,
 				3FECD6E717427973002F92EE /* second.png in Resources */,
 				3FECD6E917427973002F92EE /* second@2x.png in Resources */,
-				3FECD6EC17427973002F92EE /* HTFirstViewController.xib in Resources */,
-				3FECD6EF17427973002F92EE /* HTSecondViewController.xib in Resources */,
+				3FECD6EC17427973002F92EE /* HTMainViewController.xib in Resources */,
+				3FECD6EF17427973002F92EE /* HTConfigViewController.xib in Resources */,
 				3F79DE341747CD81007C137B /* HTImageDetailViewController.xib in Resources */,
 				3F848E7E174D0A5400F3C629 /* HTLoadMoreImageCell.xib in Resources */,
 				3F848E88174D181600F3C629 /* HTImageCell.xib in Resources */,
@@ -385,8 +385,8 @@
 			files = (
 				3FECD6D117427973002F92EE /* main.m in Sources */,
 				3FECD6D517427973002F92EE /* HTAppDelegate.m in Sources */,
-				3FECD6DE17427973002F92EE /* HTFirstViewController.m in Sources */,
-				3FECD6E517427973002F92EE /* HTSecondViewController.m in Sources */,
+				3FECD6DE17427973002F92EE /* HTMainViewController.m in Sources */,
+				3FECD6E517427973002F92EE /* HTConfigViewController.m in Sources */,
 				3F4DF8E9174524A900FAF065 /* HTFlickrAPIRequester.m in Sources */,
 				3F79DE331747CD81007C137B /* HTImageDetailViewController.m in Sources */,
 				3F848E83174D0C3800F3C629 /* HTLoadMoreImageCell.m in Sources */,
@@ -415,20 +415,20 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		3FECD6EA17427973002F92EE /* HTFirstViewController.xib */ = {
+		3FECD6EA17427973002F92EE /* HTMainViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				3FECD6F51742797D002F92EE /* ja */,
 			);
-			name = HTFirstViewController.xib;
+			name = HTMainViewController.xib;
 			sourceTree = "<group>";
 		};
-		3FECD6ED17427973002F92EE /* HTSecondViewController.xib */ = {
+		3FECD6ED17427973002F92EE /* HTConfigViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				3FECD6F61742797D002F92EE /* ja */,
 			);
-			name = HTSecondViewController.xib;
+			name = HTConfigViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -8,13 +8,13 @@
 
 #import "HTAppDelegate.h"
 
-#import "HTFirstViewController.h"
-#import "HTSecondViewController.h"
+#import "HTMainViewController.h"
+#import "HTConfigViewController.h"
 #import "HTFlickrAPIRequester.h"
 
 @interface HTAppDelegate()
-@property HTFirstViewController *firstViewController;
-@property HTSecondViewController *secondViewController;
+@property HTMainViewController *firstViewController;
+@property HTConfigViewController *configViewController;
 @end
 
 @implementation HTAppDelegate
@@ -22,12 +22,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    _firstViewController = [[HTFirstViewController alloc] initWithNibName:@"HTFirstViewController" bundle:nil];
+    _firstViewController = [[HTMainViewController alloc] initWithNibName:@"HTFirstViewController" bundle:nil];
     
-    _secondViewController = [[HTSecondViewController alloc] initWithNibName:@"HTSecondViewController" bundle:nil];
+    _configViewController = [[HTConfigViewController alloc] initWithNibName:@"HTConfigViewController" bundle:nil];
     
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = @[_firstViewController, _secondViewController];
+    self.tabBarController.viewControllers = @[_firstViewController, _configViewController];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     //[self createAd];
