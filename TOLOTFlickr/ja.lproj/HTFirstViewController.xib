@@ -44,7 +44,7 @@
 						<string key="NSFrame">{{0, 44}, {320, 455}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="367144633"/>
+						<reference key="NSNextKeyView" ref="790903244"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -85,7 +85,7 @@
 							</object>
 						</array>
 					</object>
-					<object class="IBUIButton" id="367144633">
+					<object class="IBUIButton" id="790903244">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{20, 228}, {280, 44}}</string>
@@ -98,7 +98,7 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<string key="IBUINormalTitle">Flickr にログイン</string>
-						<object class="NSColor" key="IBUIHighlightedTitleColor" id="725365013">
+						<object class="NSColor" key="IBUIHighlightedTitleColor" id="147794475">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
 						</object>
@@ -125,7 +125,7 @@
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="921231375"/>
-				<reference key="IBUIBackgroundColor" ref="725365013"/>
+				<reference key="IBUIBackgroundColor" ref="147794475"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<object class="IBUIScreenMetrics" key="IBUISimulatedDestinationMetrics">
@@ -186,7 +186,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">flickrLoginButton</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="367144633"/>
+						<reference key="destination" ref="790903244"/>
 					</object>
 					<int key="connectionID">46</int>
 				</object>
@@ -209,7 +209,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">didTapFlickrLoginButton:</string>
-						<reference key="source" ref="367144633"/>
+						<reference key="source" ref="790903244"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -230,7 +230,7 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="921231375"/>
 							<reference ref="150791581"/>
-							<reference ref="367144633"/>
+							<reference ref="790903244"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -280,7 +280,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">45</int>
-						<reference key="object" ref="367144633"/>
+						<reference key="object" ref="790903244"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</array>
@@ -333,20 +333,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">HTFirstViewController</string>
 					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="didTapClearButton:">id</string>
-						<string key="didTapCreateButton:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="didTapClearButton:">
-							<string key="name">didTapClearButton:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="didTapCreateButton:">
-							<string key="name">didTapCreateButton:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="createButton">UIBarButtonItem</string>
 						<string key="flickrLoginButton">UIButton</string>

@@ -3,11 +3,11 @@ PODS:
   - BlocksKit (1.8.2):
     - libffi
   - ELCImagePickerController (0.1.1)
-  - libffi (3.0.11)
+  - libffi (3.0.13)
   - QuickDialog (0.8)
   - SDWebImage (3.2):
-    - SDWebImage/MapKit
-  - SDWebImage/MapKit (3.2)
+    - SDWebImage/Core
+  - SDWebImage/Core (3.2)
   - SVProgressHUD (0.9)
   - Underscore.m (0.2.0)
 
@@ -24,9 +24,9 @@ SPEC CHECKSUMS:
   AQGridView: ee436c64bc4a972ca7f3ce99971c0204af9e65ea
   BlocksKit: 7396526b0816734103f6133fbb1a520c8b04e80c
   ELCImagePickerController: 1f1150d7ea030f8b2474232d624198121c9be93b
-  libffi: 8a1d9ba43c0c84b546b42c6f742714e73aa07ae1
+  libffi: 64ef39353e747bb2b25e1026afd96a157bf9231c
   QuickDialog: 465692c7c599ad41a0c46022c55779dd61a4d4fe
-  SDWebImage: 4e2b2287a54c052cb0d717bcdf37387b9c4751ae
+  SDWebImage: f742ac91b65bd34b6d452325115e2ded3a73380e
   SVProgressHUD: 03d4845ec8e64591726428a08236c6a5489d45f8
   Underscore.m: a1363c047e21e601dcabc16abd6faf9413cf4290
 

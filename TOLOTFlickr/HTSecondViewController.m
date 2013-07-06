@@ -10,13 +10,13 @@
 #import "HTFlickrAPIRequester.h"
 
 @interface HTSecondViewController ()
+
 @property HTFlickrAPIRequester *flickrAPIRequester;
 @end
 
 @implementation HTSecondViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"設定";
@@ -33,9 +33,10 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark IBAction
+
 - (IBAction)didTapLogoutButton:(id)sender {
     _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
     [_flickrAPIRequester logout];
 }
-
 @end
