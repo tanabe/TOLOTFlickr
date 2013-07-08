@@ -19,7 +19,7 @@
         NSString *secret = imageInfo[@"secret"];
         
         _title = imageInfo[@"title"];
-        _largeURL = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_b.jpg", farmId, serverId, imageId, secret];
+        _largeURL = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_z.jpg", farmId, serverId, imageId, secret];
         _thumbnailURL = [NSString stringWithFormat:@"http://farm%@.staticflickr.com/%@/%@_%@_s.jpg", farmId, serverId, imageId, secret];
         _selected = NO;
     }

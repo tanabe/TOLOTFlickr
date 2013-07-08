@@ -9,7 +9,10 @@
 #import "HTConfigViewController.h"
 #import "HTFlickrAPIRequester.h"
 
-@interface HTConfigViewController ()
+
+@interface HTConfigViewController () <UITableViewDelegate, UITableViewDataSource>
+
+@property (strong, nonatomic) IBOutlet UITableView *configTableView;
 
 @property HTFlickrAPIRequester *flickrAPIRequester;
 @end
@@ -27,6 +30,9 @@
 							
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _configTableView.delegate = self;
+    _configTableView.dataSource = self;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,5 +44,42 @@
 - (IBAction)didTapLogoutButton:(id)sender {
     _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
     [_flickrAPIRequester logout];
+}
+
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"設定";
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+    }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.text = @"Flickr 連携を解除する";
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
+        [_flickrAPIRequester logout];
+        [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:NO];
+        
+        UIAlertView *alert =
+        [[UIAlertView alloc] initWithTitle:@"" message:@"Flickr 連携を解除しました"
+                                  delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
+        [alert show];
+
+    }
 }
 @end

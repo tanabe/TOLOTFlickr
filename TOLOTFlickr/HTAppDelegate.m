@@ -15,6 +15,7 @@
 @interface HTAppDelegate()
 @property HTMainViewController *firstViewController;
 @property HTConfigViewController *configViewController;
+
 @end
 
 @implementation HTAppDelegate
@@ -22,7 +23,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    _firstViewController = [[HTMainViewController alloc] initWithNibName:@"HTFirstViewController" bundle:nil];
+    _firstViewController = [[HTMainViewController alloc] initWithNibName:@"HTMainViewController" bundle:nil];
     
     _configViewController = [[HTConfigViewController alloc] initWithNibName:@"HTConfigViewController" bundle:nil];
     
