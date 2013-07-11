@@ -35,4 +35,7 @@ install_resource 'ELCImagePickerController/Classes/ELCImagePicker/Resources/ELCA
 install_resource 'ELCImagePickerController/Classes/ELCImagePicker/Resources/ELCAssetTablePicker.xib'
 install_resource 'ELCImagePickerController/Classes/ELCImagePicker/Resources/Overlay.png'
 install_resource 'ELCImagePickerController/Classes/ELCImagePicker/Resources/Overlay@2x.png'
+install_resource 'Nimbus/src/overview/resources/NimbusOverviewer.bundle'
+install_resource 'Nimbus/src/photos/resources/NimbusPhotos.bundle'
+install_resource 'Nimbus/src/webcontroller/resources/NimbusWebController.bundle'
 install_resource 'SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle'

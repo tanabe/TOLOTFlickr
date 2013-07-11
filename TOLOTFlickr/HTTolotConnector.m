@@ -59,8 +59,7 @@ static NSString *pageBodyFormat = @"<?xml version='1.0' encoding='utf-8' standal
     for (NSInteger i = 0; i < images.count; i++) {
         NSInteger index = i;
         HTImageEntity *imageEntity = (HTImageEntity *)images[i];
-        NSString *imageURL = @"http://upload.wikimedia.org/wikipedia/commons/c/c5/Siberian_Husky_pho_.jpg";
-        //NSString *imageURL = imageEntity.largeURL;
+        NSString *imageURL = imageEntity.largeURL;
         NSString *pageData = [NSString stringWithFormat:pageBodyFormat, @"page", @"false", @"image", imageURL];
         NSString *key = [NSString stringWithFormat:@"page%d", index];
         [pages setObject:pageData forKey:key];
@@ -68,15 +67,21 @@ static NSString *pageBodyFormat = @"<?xml version='1.0' encoding='utf-8' standal
     return pages;
 }
 
-+ (NSString *) createContent {
-    return @"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"
++ (NSString *) createContent:(NSMutableArray *)images {
+    NSString *pageFormat = @"<itemref idref='page%i'/>";
+    NSString *contentFormat = @"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"
     "<package xmlns='http://www.idpf.org/2007/opf' prefix='cc: http://creativecommons.org/ns# rendition: http://www.idpf.org/vocab/rendition/#' unique-identifier='BookId' version='2.0'>"
-    "<spine toc='ncx'>"
-    "<itemref idref='page0'/>"
-    "<itemref idref='page1'/>"
-    "<itemref idref='page2'/>"
-    "</spine>"
+    "<spine toc='ncx'>%@</spine>"
     "</package>";
+    NSString *result;
+    NSMutableString *pages = [NSMutableString string];
+    
+    for (NSInteger i = 0; i < images.count; i++) {
+        [pages appendString:[NSString stringWithFormat:pageFormat, i]];
+    }
+    //NSLog(pages);
+    result = [NSString stringWithFormat:contentFormat, pages];
+    return result;
 }
 
 + (void) createPasteboard:(NSMutableArray *) images {
@@ -84,7 +89,7 @@ static NSString *pageBodyFormat = @"<?xml version='1.0' encoding='utf-8' standal
                          developerInfo, @"info",
                          book, @"book",
                          [HTTolotConnector createPages:images], @"xhtml",
-                         [HTTolotConnector createContent], @"content",
+                                [HTTolotConnector createContent:images], @"content",
                          @"true", @"debugMode",
                          nil];
     

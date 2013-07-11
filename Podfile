@@ -1,5 +1,6 @@
 platform :ios, '6.0'
 
+pod 'Nimbus'
 pod 'SVProgressHUD'
 pod 'ELCImagePickerController'
 pod 'SDWebImage'
