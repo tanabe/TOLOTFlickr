@@ -23,12 +23,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    
     _firstViewController = [[HTMainViewController alloc] initWithNibName:@"HTMainViewController" bundle:nil];
     
     _configViewController = [[HTConfigViewController alloc] initWithNibName:@"HTConfigViewController" bundle:nil];
     
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:_firstViewController];
+    navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    //[navigationController setNavigationBarHidden:YES];
+
+    
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = @[_firstViewController, _configViewController];
+    self.tabBarController.viewControllers = @[navigationController, _configViewController];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     //[self createAd];

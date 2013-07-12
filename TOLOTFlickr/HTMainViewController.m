@@ -14,6 +14,7 @@
 #import "HTLoadMoreImageCell.h"
 #import "HTImageEntity.h"
 #import "HTTolotConnector.h"
+#import "HTConfirmViewController.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <objc/runtime.h>
@@ -24,6 +25,8 @@ static NSInteger PER_PAGE    = 100;
 static NSInteger CELL_WIDTH  = 75;
 static NSInteger CELL_HEIGHT = 80;
 static NSInteger LOAD_BUTTON_HEIGHT = 40;
+static NSInteger MAX_IMAGES = 62;
+
 static NSString *TITLE_FORMAT = @"%d/62枚選択";
 
 @interface UIImage (URL)
@@ -43,9 +46,8 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 @property (strong, nonatomic) IBOutlet AQGridView *gridView;
 @property (strong, nonatomic) IBOutlet HTImageCell *gridViewCellContent;
 @property (strong, nonatomic) IBOutlet HTLoadMoreImageCell *loadMoreImageCellContent;
-@property (strong, nonatomic) IBOutlet UINavigationBar *navigationBar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *createButton;
 @property (strong, nonatomic) IBOutlet UIButton *flickrLoginButton;
+@property (strong, nonatomic) UIBarButtonItem *confirmButton;
 
 
 @end
@@ -61,12 +63,14 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     if (![_flickrAPIRequester hasAuthorized]) {
         [self reset];
         _flickrLoginButton.hidden = NO;
     }
+    [self updateTitle];
 }
-							
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
@@ -81,10 +85,14 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
     } else {
         _flickrLoginButton.hidden = NO;
     }
+    
+    _confirmButton = [[UIBarButtonItem alloc] initWithTitle:@"確認画面" style:UIBarButtonItemStylePlain target:self action:@selector(showConfirm)];
+    self.navigationItem.rightBarButtonItem = _confirmButton;
+    _confirmButton.enabled = NO;
 }
 
 - (void) reset {
-    _createButton.enabled = NO;
+    _confirmButton.enabled = NO;
     _currentPage = 1;
     _images = [NSMutableArray array];
     _selectedImages = [NSMutableArray array];
@@ -95,7 +103,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 }
 
 - (void) initializeNotificationCenter {
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"didThumbnailTapped"
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"didThumbnailLongTapped"
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
                                                   usingBlock:^(NSNotification *note) {
@@ -109,14 +117,14 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 }
 
 - (void) updateTitle {
-    _navigationBar.topItem.title = [NSString stringWithFormat:TITLE_FORMAT, _selectedImages.count];
+    self.navigationItem.title = [NSString stringWithFormat:TITLE_FORMAT, _selectedImages.count];
 }
 
-- (void) updateCreateButton {
-    if (_selectedImages.count > 0) {
-        _createButton.enabled = YES;
+- (void) updateConfirmButton {
+    if (_selectedImages.count > 0 && _selectedImages.count <= MAX_IMAGES) {
+        _confirmButton.enabled = YES;
     } else {
-        _createButton.enabled = NO;
+        _confirmButton.enabled = NO;
     }
 }
 
@@ -158,8 +166,8 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
                      ofObject:(id)object
                        change:(NSDictionary *)change
                       context:(void *)context {
+    //TODO fixme heavy loop
     _selectedImages = [[NSMutableArray alloc] init];
-    
     for (HTImageEntity *imageEntity in _images) {
         if (imageEntity.selected) {
             [_selectedImages addObject:imageEntity];
@@ -172,7 +180,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
     _gridView.contentOffset = lastOffset;
     
     [self updateTitle];
-    [self updateCreateButton];
+    [self updateConfirmButton];
 }
 
 - (void) showLoadMoreImagesButton {
@@ -225,23 +233,29 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
     return CGSizeMake(CELL_WIDTH, CELL_HEIGHT);
 }
 
-- (IBAction)didTapCreateButton:(id)sender {
-    [HTTolotConnector openTolotApplication:_selectedImages];
-}
-
-- (IBAction)didTapClearButton:(id)sender {
+- (void) clearSelection {
     _selectedImages = [[NSMutableArray alloc] init];
     for (HTImageEntity *imageEntity in _images) {
         imageEntity.selected = NO;
     }
+    
     CGPoint lastOffset = _gridView.contentOffset;
     [_gridView reloadData];
     [self adjustGridViewHeight];
     _gridView.contentOffset = lastOffset;
     
     [self updateTitle];
-    [self updateCreateButton];
+    [self updateConfirmButton];
+}
 
+- (void) showConfirm {
+    HTConfirmViewController *confirmViewController = [[HTConfirmViewController alloc] init];
+    [self.navigationController pushViewController:confirmViewController animated:YES];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    //self.navigationItem.title = @"写真を選択";
 }
 
 - (IBAction)didTapFlickrLoginButton:(id)sender {

@@ -42,6 +42,8 @@
 		3FECD6F917427B41002F92EE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6F817427B41002F92EE /* SystemConfiguration.framework */; };
 		3FECD6FB17427B46002F92EE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD6FA17427B46002F92EE /* CFNetwork.framework */; };
 		3FECD73A17428189002F92EE /* libObjectiveFlickr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD72C17427E00002F92EE /* libObjectiveFlickr.a */; };
+		3FFC807B178F1002009BE61A /* HTConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC8079178F1002009BE61A /* HTConfirmViewController.m */; };
+		3FFC807C178F1002009BE61A /* HTConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FFC807A178F1002009BE61A /* HTConfirmViewController.xib */; };
 		979805B16E404FAF855A449D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 158CEE28E98A4062B2FBEAF6 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +120,9 @@
 		3FECD6F817427B41002F92EE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3FECD6FA17427B46002F92EE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3FECD72317427E00002F92EE /* ObjectiveFlickr.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ObjectiveFlickr.xcodeproj; path = ../../github/objectiveflickr/ObjectiveFlickr.xcodeproj; sourceTree = "<group>"; };
+		3FFC8078178F1002009BE61A /* HTConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTConfirmViewController.h; sourceTree = "<group>"; };
+		3FFC8079178F1002009BE61A /* HTConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTConfirmViewController.m; sourceTree = "<group>"; };
+		3FFC807A178F1002009BE61A /* HTConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HTConfirmViewController.xib; sourceTree = "<group>"; };
 		E25056DAF18F4648A0A7996B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -199,6 +204,9 @@
 				3FECD6EA17427973002F92EE /* HTMainViewController.xib */,
 				3FECD6DC17427973002F92EE /* HTMainViewController.h */,
 				3FECD6DD17427973002F92EE /* HTMainViewController.m */,
+				3FFC8078178F1002009BE61A /* HTConfirmViewController.h */,
+				3FFC8079178F1002009BE61A /* HTConfirmViewController.m */,
+				3FFC807A178F1002009BE61A /* HTConfirmViewController.xib */,
 				3F848E84174D17FB00F3C629 /* HTImageCell.h */,
 				3F848E85174D17FB00F3C629 /* HTImageCell.m */,
 				3F848E87174D181600F3C629 /* HTImageCell.xib */,
@@ -342,6 +350,7 @@
 				3F35053E1751E0B0003BDCA0 /* gear@2x.png in Resources */,
 				3F35053F1751E0B0003BDCA0 /* photos.png in Resources */,
 				3F3505401751E0B0003BDCA0 /* photos@2x.png in Resources */,
+				3FFC807C178F1002009BE61A /* HTConfirmViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +402,7 @@
 				3F848E86174D17FB00F3C629 /* HTImageCell.m in Sources */,
 				3FB3E7C91750473400CF15FE /* HTImageEntity.m in Sources */,
 				3FBC18C317511307003EC005 /* HTTolotConnector.m in Sources */,
+				3FFC807B178F1002009BE61A /* HTConfirmViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
