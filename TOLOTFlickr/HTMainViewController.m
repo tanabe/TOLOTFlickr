@@ -16,7 +16,7 @@
 #import "HTTolotConnector.h"
 #import "HTConfirmViewController.h"
 
-#import <SDWebImage/UIImageView+WebCache.h>
+//#import <SDWebImage/UIImageView+WebCache.h>
 #import <objc/runtime.h>
 #import "AQGridViewController.h"
 #import "SVProgressHUD.h"
@@ -86,7 +86,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
         _flickrLoginButton.hidden = NO;
     }
     
-    _confirmButton = [[UIBarButtonItem alloc] initWithTitle:@"確認画面" style:UIBarButtonItemStylePlain target:self action:@selector(showConfirm)];
+    _confirmButton = [[UIBarButtonItem alloc] initWithTitle:@"確認画面へ進む" style:UIBarButtonItemStylePlain target:self action:@selector(showConfirm)];
     self.navigationItem.rightBarButtonItem = _confirmButton;
     _confirmButton.enabled = NO;
 }
@@ -249,7 +249,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 }
 
 - (void) showConfirm {
-    HTConfirmViewController *confirmViewController = [[HTConfirmViewController alloc] init];
+    HTConfirmViewController *confirmViewController = [[HTConfirmViewController alloc] initWithImages:_selectedImages];
     [self.navigationController pushViewController:confirmViewController animated:YES];
 }
 

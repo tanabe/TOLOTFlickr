@@ -39,14 +39,6 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark IBAction
-
-- (IBAction)didTapLogoutButton:(id)sender {
-    _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
-    [_flickrAPIRequester logout];
-}
-
-
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
 }
@@ -78,4 +70,5 @@
 
     }
 }
+
 @end

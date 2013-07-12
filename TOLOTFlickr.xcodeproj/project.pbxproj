@@ -44,6 +44,10 @@
 		3FECD73A17428189002F92EE /* libObjectiveFlickr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FECD72C17427E00002F92EE /* libObjectiveFlickr.a */; };
 		3FFC807B178F1002009BE61A /* HTConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC8079178F1002009BE61A /* HTConfirmViewController.m */; };
 		3FFC807C178F1002009BE61A /* HTConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FFC807A178F1002009BE61A /* HTConfirmViewController.xib */; };
+		3FFC808017906A02009BE61A /* HTConfirmViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FFC807F17906A02009BE61A /* HTConfirmViewCell.xib */; };
+		3FFC808317906CC5009BE61A /* HTConfirmViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC808217906CC4009BE61A /* HTConfirmViewCell.m */; };
+		3FFC808617906DD2009BE61A /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FFC808417906DD2009BE61A /* redo.png */; };
+		3FFC808717906DD2009BE61A /* redo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FFC808517906DD2009BE61A /* redo@2x.png */; };
 		979805B16E404FAF855A449D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 158CEE28E98A4062B2FBEAF6 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -123,6 +127,11 @@
 		3FFC8078178F1002009BE61A /* HTConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTConfirmViewController.h; sourceTree = "<group>"; };
 		3FFC8079178F1002009BE61A /* HTConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTConfirmViewController.m; sourceTree = "<group>"; };
 		3FFC807A178F1002009BE61A /* HTConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HTConfirmViewController.xib; sourceTree = "<group>"; };
+		3FFC807F17906A02009BE61A /* HTConfirmViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HTConfirmViewCell.xib; sourceTree = "<group>"; };
+		3FFC808117906CC4009BE61A /* HTConfirmViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTConfirmViewCell.h; sourceTree = "<group>"; };
+		3FFC808217906CC4009BE61A /* HTConfirmViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTConfirmViewCell.m; sourceTree = "<group>"; };
+		3FFC808417906DD2009BE61A /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
+		3FFC808517906DD2009BE61A /* redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@2x.png"; sourceTree = "<group>"; };
 		E25056DAF18F4648A0A7996B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -147,6 +156,8 @@
 		3F4DF8E61745242300FAF065 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3FFC808417906DD2009BE61A /* redo.png */,
+				3FFC808517906DD2009BE61A /* redo@2x.png */,
 				3F3505391751E0B0003BDCA0 /* gear.png */,
 				3F35053A1751E0B0003BDCA0 /* gear@2x.png */,
 				3F35053B1751E0B0003BDCA0 /* photos.png */,
@@ -207,6 +218,9 @@
 				3FFC8078178F1002009BE61A /* HTConfirmViewController.h */,
 				3FFC8079178F1002009BE61A /* HTConfirmViewController.m */,
 				3FFC807A178F1002009BE61A /* HTConfirmViewController.xib */,
+				3FFC808117906CC4009BE61A /* HTConfirmViewCell.h */,
+				3FFC808217906CC4009BE61A /* HTConfirmViewCell.m */,
+				3FFC807F17906A02009BE61A /* HTConfirmViewCell.xib */,
 				3F848E84174D17FB00F3C629 /* HTImageCell.h */,
 				3F848E85174D17FB00F3C629 /* HTImageCell.m */,
 				3F848E87174D181600F3C629 /* HTImageCell.xib */,
@@ -351,6 +365,9 @@
 				3F35053F1751E0B0003BDCA0 /* photos.png in Resources */,
 				3F3505401751E0B0003BDCA0 /* photos@2x.png in Resources */,
 				3FFC807C178F1002009BE61A /* HTConfirmViewController.xib in Resources */,
+				3FFC808017906A02009BE61A /* HTConfirmViewCell.xib in Resources */,
+				3FFC808617906DD2009BE61A /* redo.png in Resources */,
+				3FFC808717906DD2009BE61A /* redo@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +420,7 @@
 				3FB3E7C91750473400CF15FE /* HTImageEntity.m in Sources */,
 				3FBC18C317511307003EC005 /* HTTolotConnector.m in Sources */,
 				3FFC807B178F1002009BE61A /* HTConfirmViewController.m in Sources */,
+				3FFC808317906CC5009BE61A /* HTConfirmViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

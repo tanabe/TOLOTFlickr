@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HTConfirmViewController : UIViewController
-
+- (id) initWithImages:(NSMutableArray *)images;
 @end
