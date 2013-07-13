@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface HTConfirmViewCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet UIButton *reverseButton;
 
 @end

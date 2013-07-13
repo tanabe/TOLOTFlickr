@@ -9,6 +9,7 @@
 #import "HTConfirmViewController.h"
 #import "HTImageEntity.h"
 #import "HTConfirmViewCell.h"
+#import "HTTolotConnector.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 @interface HTConfirmViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -41,6 +42,14 @@
     _imagesTableView.dataSource = self;
     self.navigationItem.title = @"確認";
     [_imagesTableView registerNib:[UINib nibWithNibName:@"HTConfirmViewCell" bundle:nil] forCellReuseIdentifier:@"ConfirmCell"];
+    
+    UIBarButtonItem *confirmButton = [[UIBarButtonItem alloc] initWithTitle:@"作成" style:UIBarButtonItemStylePlain target:self action:@selector(openTolot)];
+    confirmButton.tintColor = [UIColor blueColor];
+    self.navigationItem.rightBarButtonItem = confirmButton;
+}
+
+- (void) openTolot {
+    [HTTolotConnector openTolotApplication:_images];
 }
 
 - (void) backToMainView {
@@ -55,6 +64,14 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) reverse:(id)sender {
+    NSArray *reversed = [[_images reverseObjectEnumerator] allObjects];
+    for (NSInteger i = 0; i < _images.count; i++) {
+        _images[i] = reversed[i];
+    }
+    [_imagesTableView reloadData];
 }
 
 #pragma mark degelgate methods
@@ -84,16 +101,20 @@
     }
     
     if (indexPath.section == 0) {
-        cell = (HTConfirmViewCell *)[tableView dequeueReusableCellWithIdentifier:@"ConfirmCell"];
-        //cell.textLabel.text = @"hoge";
-        //UIButton *reverseButton = [[UIButton alloc] init];
-        //reverseButton.titleLabel.text = @"順序を反転";
+        HTConfirmViewCell *cell = (HTConfirmViewCell *)[tableView dequeueReusableCellWithIdentifier:@"ConfirmCell"];
+        //cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell.reverseButton addTarget:self
+                               action:@selector(reverse:)
+                     forControlEvents:UIControlEventTouchUpInside];
+        return cell;
     } else {
         HTImageEntity *imageEntity = (HTImageEntity *)_images[indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = imageEntity.title;
         [cell.imageView setImageWithURL:[NSURL URLWithString:imageEntity.thumbnailURL]];
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 

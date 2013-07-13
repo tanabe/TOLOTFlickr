@@ -13,7 +13,7 @@
 #import "HTImageCell.h"
 #import "HTLoadMoreImageCell.h"
 #import "HTImageEntity.h"
-#import "HTTolotConnector.h"
+
 #import "HTConfirmViewController.h"
 
 //#import <SDWebImage/UIImageView+WebCache.h>
