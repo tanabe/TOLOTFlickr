@@ -43,7 +43,7 @@
     self.navigationItem.title = @"確認";
     [_imagesTableView registerNib:[UINib nibWithNibName:@"HTConfirmViewCell" bundle:nil] forCellReuseIdentifier:@"ConfirmCell"];
     
-    UIBarButtonItem *confirmButton = [[UIBarButtonItem alloc] initWithTitle:@"作成" style:UIBarButtonItemStylePlain target:self action:@selector(openTolot)];
+    UIBarButtonItem *confirmButton = [[UIBarButtonItem alloc] initWithTitle:@"作成する" style:UIBarButtonItemStylePlain target:self action:@selector(openTolot)];
     confirmButton.tintColor = [UIColor blueColor];
     self.navigationItem.rightBarButtonItem = confirmButton;
 }

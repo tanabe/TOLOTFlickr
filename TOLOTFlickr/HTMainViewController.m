@@ -39,8 +39,10 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 @property NSMutableArray *images;
 @property NSMutableArray *selectedImages;
 @property BOOL hasMoreImages;
+
 @property NSInteger pages;
 @property NSInteger currentPage;
+@property (strong, nonatomic) IBOutlet UIView *loginView;
 
 @property (strong, nonatomic) UIButton *loadMoreImagesButton;
 @property (strong, nonatomic) IBOutlet AQGridView *gridView;
@@ -66,7 +68,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
     [super viewWillAppear:animated];
     if (![_flickrAPIRequester hasAuthorized]) {
         [self reset];
-        _flickrLoginButton.hidden = NO;
+        _loginView.hidden = NO;
     }
     [self updateTitle];
 }
@@ -80,10 +82,10 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
     [self initializeNotificationCenter];
     
     if ([_flickrAPIRequester hasAuthorized]) {
-        _flickrLoginButton.hidden = YES;
+        _loginView.hidden = YES;
         [self showImages];
     } else {
-        _flickrLoginButton.hidden = NO;
+        _loginView.hidden = NO;
     }
     
     _confirmButton = [[UIBarButtonItem alloc] initWithTitle:@"確認画面へ進む" style:UIBarButtonItemStylePlain target:self action:@selector(showConfirm)];
@@ -128,8 +130,22 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
     }
 }
 
+- (void) showHint {
+    NSString *key = @"didShowHint";
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL didShowHint = [userDefaults boolForKey:key];
+    if (!didShowHint) {
+        UIAlertView *alert =
+        [[UIAlertView alloc] initWithTitle:@"ヒント" message:@"サムネイル画像を長押しすると拡大表示できます"
+                                  delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        [userDefaults setBool:YES forKey:key];
+        [userDefaults synchronize];
+    }
+}
+
 - (void) showImages {
-    _flickrLoginButton.hidden = YES;
+    _loginView.hidden = YES;
     [SVProgressHUD showWithStatus:@"読込中"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [_flickrAPIRequester fetchImages:PER_PAGE withPage:_currentPage complete:^(NSDictionary *response) {
@@ -137,6 +153,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
         NSLog(@"%d", _pages);
         //NSLog(@"%@", response);
         NSArray *photos = response[@"photos"][@"photo"];
+
         for (NSInteger i = 0; i < photos.count; i++) {
             NSDictionary *imageInfo = photos[i];
             HTImageEntity *imageEntity = [[HTImageEntity alloc] initWithImageInfo:imageInfo];
@@ -151,6 +168,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 
         [_gridView reloadData];
         [SVProgressHUD dismiss];
+        [self showHint];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
         if (_currentPage < _pages) {

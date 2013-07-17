@@ -31,23 +31,13 @@
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:_firstViewController];
     navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    //[navigationController setNavigationBarHidden:YES];
-
     
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = @[navigationController, _configViewController];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
-    //[self createAd];
-    return YES;
-}
 
-- (void) createAd {
-    /*
-    UIView *adView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, self.tabBarController.view.frame.size.width, 50)];
-    adView.backgroundColor = [UIColor purpleColor];
-    [self.tabBarController.view addSubview:adView];
-     */
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

@@ -17,7 +17,7 @@ static NSString *developerInfo = @"<?xml version='1.0' encoding='UTF-8'?>"
 "<devCode>c87913faa98c</devCode>"
 "<devName>Hideaki Tanabe</devName>"
 "<appCode>8d6d84f77769</appCode>"
-"<appName>フリトロ</appName>"
+"<appName>フリット</appName>"
 "</info>";
 
 static NSString *book = @"<?xml version='1.0' encoding='UTF-8'?>"

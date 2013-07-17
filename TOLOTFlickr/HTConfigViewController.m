@@ -32,6 +32,17 @@
     [super viewDidLoad];
     _configTableView.delegate = self;
     _configTableView.dataSource = self;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:13];
+    label.shadowColor = [UIColor whiteColor];
+    label.shadowOffset = CGSizeMake(1.0f, 1.0f);
+    label.textColor = [UIColor darkGrayColor];
+
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"version 1.0";
+    [label sizeToFit];
+    _configTableView.tableFooterView = label;
     
 }
 
