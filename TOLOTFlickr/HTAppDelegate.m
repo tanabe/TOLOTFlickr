@@ -11,6 +11,7 @@
 #import "HTMainViewController.h"
 #import "HTConfigViewController.h"
 #import "HTFlickrAPIRequester.h"
+#import "GAI.h"
 
 @interface HTAppDelegate()
 @property HTMainViewController *firstViewController;
@@ -36,6 +37,17 @@
     self.tabBarController.viewControllers = @[navigationController, _configViewController];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
+    
+    // Exceptionのトラッキングはしない
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    // トラッキング間隔は10秒
+    [GAI sharedInstance].dispatchInterval = 10;
+    // デバック出力はしない
+    [GAI sharedInstance].debug = NO;
+    // 通信にはHTTPSを使用する
+    [[GAI sharedInstance].defaultTracker setUseHttps:YES];
+    // トラッキングIDを設定
+    [[GAI sharedInstance] trackerWithTrackingId:@"UA-73660-20"];
 
     return YES;
 }

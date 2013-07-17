@@ -75,6 +75,9 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.trackedViewName = @"MainView";
+    
     _flickrAPIRequester = [HTFlickrAPIRequester getInstance];
     
     [self reset];

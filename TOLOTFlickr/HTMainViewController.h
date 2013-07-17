@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
 
-@interface HTMainViewController : UIViewController
+@interface HTMainViewController : GAITrackedViewController 
 - (void) showImages;
 @end

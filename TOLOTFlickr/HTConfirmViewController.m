@@ -38,6 +38,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.trackedViewName = @"ConfirmView";
+    
     _imagesTableView.delegate = self;
     _imagesTableView.dataSource = self;
     self.navigationItem.title = @"確認";

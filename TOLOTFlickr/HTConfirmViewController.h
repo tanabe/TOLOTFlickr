@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
 
-@interface HTConfirmViewController : UIViewController
+@interface HTConfirmViewController : GAITrackedViewController 
 - (id) initWithImages:(NSMutableArray *)images;
 @end

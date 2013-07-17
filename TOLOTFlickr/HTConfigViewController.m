@@ -30,6 +30,9 @@
 							
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.trackedViewName = @"ConfigView";
+    
     _configTableView.delegate = self;
     _configTableView.dataSource = self;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];

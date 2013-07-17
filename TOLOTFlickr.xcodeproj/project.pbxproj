@@ -18,6 +18,8 @@
 		3F848E83174D0C3800F3C629 /* HTLoadMoreImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F848E82174D0C3800F3C629 /* HTLoadMoreImageCell.m */; };
 		3F848E86174D17FB00F3C629 /* HTImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F848E85174D17FB00F3C629 /* HTImageCell.m */; };
 		3F848E88174D181600F3C629 /* HTImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F848E87174D181600F3C629 /* HTImageCell.xib */; };
+		3FA401981796E93C000CF361 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FA401961796E93C000CF361 /* libGoogleAnalytics.a */; };
+		3FA4019B1796E988000CF361 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FA4019A1796E988000CF361 /* CoreData.framework */; };
 		3FB3E7C5175042C800CF15FE /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB3E7C3175042C800CF15FE /* check.png */; };
 		3FB3E7C6175042C800CF15FE /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB3E7C4175042C800CF15FE /* check@2x.png */; };
 		3FB3E7C91750473400CF15FE /* HTImageEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB3E7C81750473400CF15FE /* HTImageEntity.m */; };
@@ -92,6 +94,14 @@
 		3F848E84174D17FB00F3C629 /* HTImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTImageCell.h; sourceTree = "<group>"; };
 		3F848E85174D17FB00F3C629 /* HTImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTImageCell.m; sourceTree = "<group>"; };
 		3F848E87174D181600F3C629 /* HTImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HTImageCell.xib; sourceTree = "<group>"; };
+		3FA401911796E93C000CF361 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		3FA401921796E93C000CF361 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		3FA401931796E93C000CF361 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		3FA401941796E93C000CF361 /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransaction.h; sourceTree = "<group>"; };
+		3FA401951796E93C000CF361 /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransactionItem.h; sourceTree = "<group>"; };
+		3FA401961796E93C000CF361 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
+		3FA401971796E93C000CF361 /* libGoogleAnalytics_debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics_debug.a; sourceTree = "<group>"; };
+		3FA4019A1796E988000CF361 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3FB3E7C3175042C800CF15FE /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		3FB3E7C4175042C800CF15FE /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
 		3FB3E7C71750473400CF15FE /* HTImageEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTImageEntity.h; sourceTree = "<group>"; };
@@ -140,6 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FA4019B1796E988000CF361 /* CoreData.framework in Frameworks */,
 				3FECD73A17428189002F92EE /* libObjectiveFlickr.a in Frameworks */,
 				3FECD6FB17427B46002F92EE /* CFNetwork.framework in Frameworks */,
 				3FECD6F917427B41002F92EE /* SystemConfiguration.framework in Frameworks */,
@@ -147,6 +158,7 @@
 				3FECD6C717427973002F92EE /* Foundation.framework in Frameworks */,
 				3FECD6C917427973002F92EE /* CoreGraphics.framework in Frameworks */,
 				979805B16E404FAF855A449D /* libPods.a in Frameworks */,
+				3FA401981796E93C000CF361 /* libGoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,9 +185,24 @@
 			path = TOLOTFlickr;
 			sourceTree = "<group>";
 		};
+		3FA401901796E93C000CF361 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				3FA401911796E93C000CF361 /* GAI.h */,
+				3FA401921796E93C000CF361 /* GAITrackedViewController.h */,
+				3FA401931796E93C000CF361 /* GAITracker.h */,
+				3FA401941796E93C000CF361 /* GAITransaction.h */,
+				3FA401951796E93C000CF361 /* GAITransactionItem.h */,
+				3FA401961796E93C000CF361 /* libGoogleAnalytics.a */,
+				3FA401971796E93C000CF361 /* libGoogleAnalytics_debug.a */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
 		3FECD6B817427972002F92EE = {
 			isa = PBXGroup;
 			children = (
+				3FA4019A1796E988000CF361 /* CoreData.framework */,
 				3FECD72317427E00002F92EE /* ObjectiveFlickr.xcodeproj */,
 				3F4DF8E61745242300FAF065 /* Resources */,
 				3FECD6CA17427973002F92EE /* TOLOTFlickr */,
@@ -209,6 +236,7 @@
 		3FECD6CA17427973002F92EE /* TOLOTFlickr */ = {
 			isa = PBXGroup;
 			children = (
+				3FA401901796E93C000CF361 /* Library */,
 				3FECD6CB17427973002F92EE /* Supporting Files */,
 				3FECD6D317427973002F92EE /* HTAppDelegate.h */,
 				3FECD6D417427973002F92EE /* HTAppDelegate.m */,
@@ -530,6 +558,10 @@
 					/Users/tanabe/github/objectiveflickr/LFWebAPIKit,
 				);
 				INFOPLIST_FILE = "TOLOTFlickr/TOLOTFlickr-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/TOLOTFlickr/Library\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -547,6 +579,10 @@
 					/Users/tanabe/github/objectiveflickr/LFWebAPIKit,
 				);
 				INFOPLIST_FILE = "TOLOTFlickr/TOLOTFlickr-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/TOLOTFlickr/Library\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
