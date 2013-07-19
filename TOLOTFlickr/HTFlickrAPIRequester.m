@@ -60,6 +60,7 @@ static HTFlickrAPIRequester *instance;
 - (void) authorize {
     _flickrAPIRequest.requestTimeoutInterval = 60.0;
     _flickrAPIRequest.sessionInfo = fetchRequestTokenStep;
+    
     [_flickrAPIRequest fetchOAuthRequestTokenWithCallbackURL:[NSURL URLWithString:callbackURLBaseString]];
 }
 

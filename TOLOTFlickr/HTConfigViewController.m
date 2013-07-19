@@ -43,7 +43,7 @@
     label.textColor = [UIColor darkGrayColor];
 
     label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"version 1.0";
+    label.text = @"FliTO version 1.0";
     [label sizeToFit];
     _configTableView.tableFooterView = label;
     
