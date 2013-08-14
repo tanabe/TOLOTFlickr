@@ -17,10 +17,11 @@ static NSString *callbackURLBaseString = @"tolotflickr://auth";
 static NSString *fetchRequestTokenStep = @"fetchRequestTokenStep";
 static NSString *getAccessTokenStep = @"getAccessTokenStep";
 static NSString *fetchImagesStep = @"fetchImagesStep";
-
+static NSString *uploadImageStep = @"uploadImageStep";
 
 static fetchAccessTokenCallback kFetchAccessTokenCallback;
 static fetchImagesCallback kFetchImagesCallback;
+static uploadImageCallback kUploadImageCallback;
 
 static HTFlickrAPIRequester *instance;
 
@@ -101,6 +102,13 @@ static HTFlickrAPIRequester *instance;
                                   arguments:@{@"user_id": @"me", @"media": @"photos", @"per_page": [NSString stringWithFormat:@"%ld", (long)perPage], @"page": [NSString stringWithFormat:@"%ld", (long)page]}];
 }
 
+- (void) uploadImage:(UIImage *)image withName:(NSString *)name complete:(uploadImageCallback)callback {
+    kUploadImageCallback = callback;
+    NSData *jpeg = UIImageJPEGRepresentation(image, 1.0);
+    _flickrAPIRequest.sessionInfo = uploadImageStep;
+    [_flickrAPIRequest uploadImageStream:[NSInputStream inputStreamWithData:jpeg] suggestedFilename:name MIMEType:@"image/jpeg" arguments:[NSDictionary dictionaryWithObjectsAndKeys:@"0", @"is_public", nil]];
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+}
 
 #pragma mark OFFlickrAPIRequest delegate methods
 
@@ -114,6 +122,8 @@ static HTFlickrAPIRequester *instance;
 - (void) flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didCompleteWithResponse:(NSDictionary *)inResponseDictionary {
     if (_flickrAPIRequest.sessionInfo == fetchImagesStep) {
         kFetchImagesCallback(inResponseDictionary);
+    } else if (_flickrAPIRequest.sessionInfo == uploadImageStep) {
+        kUploadImageCallback();
     }
 }
 

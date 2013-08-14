@@ -208,7 +208,6 @@
 			children = (
 				3F64E1CE1799A821000A7D91 /* flito_logo.png */,
 				3F89DDCB17999FFF00FEC61C /* flito_logo@2x.png */,
-				3FA4019A1796E988000CF361 /* CoreData.framework */,
 				3FECD72317427E00002F92EE /* ObjectiveFlickr.xcodeproj */,
 				3F4DF8E61745242300FAF065 /* Resources */,
 				3FECD6CA17427973002F92EE /* TOLOTFlickr */,
@@ -229,6 +228,7 @@
 		3FECD6C317427973002F92EE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3FA4019A1796E988000CF361 /* CoreData.framework */,
 				3FECD6FA17427B46002F92EE /* CFNetwork.framework */,
 				3FECD6F817427B41002F92EE /* SystemConfiguration.framework */,
 				3FECD6C417427973002F92EE /* UIKit.framework */,
@@ -574,6 +574,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
 			};
 			name = Debug;
 		};
@@ -598,6 +599,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

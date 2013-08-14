@@ -11,6 +11,7 @@
 
 typedef void (^fetchAccessTokenCallback)();
 typedef void (^fetchImagesCallback)(NSDictionary *response);
+typedef void (^uploadImageCallback)();
 
 @interface HTFlickrAPIRequester : NSObject
 + (HTFlickrAPIRequester *) getInstance;
@@ -18,5 +19,6 @@ typedef void (^fetchImagesCallback)(NSDictionary *response);
 - (void) logout;
 - (void) fetchAccessToken:url complete:(fetchAccessTokenCallback)callback;
 - (void) fetchImages:(NSInteger)perPage withPage:(NSInteger)page complete:(fetchImagesCallback)callback;
+- (void) uploadImage:(UIImage *)image withName:(NSString *)name complete:(uploadImageCallback)callback;
 - (BOOL) hasAuthorized;
 @end

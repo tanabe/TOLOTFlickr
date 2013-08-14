@@ -20,6 +20,8 @@
 #import <objc/runtime.h>
 #import "AQGridViewController.h"
 #import "SVProgressHUD.h"
+#import <BlocksKit/BlocksKit.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 static NSInteger PER_PAGE    = 100;
 static NSInteger CELL_WIDTH  = 75;
@@ -33,7 +35,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 @property (nonatomic) NSString *url;
 @end
 
-@interface HTMainViewController () <AQGridViewDataSource, AQGridViewDelegate>
+@interface HTMainViewController () <AQGridViewDataSource, AQGridViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property HTFlickrAPIRequester *flickrAPIRequester;
 
 @property NSMutableArray *images;
@@ -50,6 +52,8 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 @property (strong, nonatomic) IBOutlet HTLoadMoreImageCell *loadMoreImageCellContent;
 @property (strong, nonatomic) IBOutlet UIButton *flickrLoginButton;
 @property (strong, nonatomic) UIBarButtonItem *confirmButton;
+@property (strong, nonatomic) UIBarButtonItem *uploadButton;
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
 
 @end
@@ -69,6 +73,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
     if (![_flickrAPIRequester hasAuthorized]) {
         [self reset];
         _loginView.hidden = NO;
+        _uploadButton.enabled = NO;
     }
     [self updateTitle];
 }
@@ -84,16 +89,30 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
     [self updateTitle];
     [self initializeNotificationCenter];
     
+    [self createConfirmButton];
+    [self createUploadButton];
+    
     if ([_flickrAPIRequester hasAuthorized]) {
         _loginView.hidden = YES;
         [self showImages];
     } else {
+        _uploadButton.enabled = NO;
         _loginView.hidden = NO;
     }
-    
+    _imagePickerController = [[UIImagePickerController alloc] init];
+    _imagePickerController.delegate = self;
+}
+
+- (void) createConfirmButton {
     _confirmButton = [[UIBarButtonItem alloc] initWithTitle:@"確認画面へ進む" style:UIBarButtonItemStylePlain target:self action:@selector(showConfirm)];
     self.navigationItem.rightBarButtonItem = _confirmButton;
     _confirmButton.enabled = NO;
+}
+
+- (void) createUploadButton {
+    _uploadButton = [[UIBarButtonItem alloc] initWithTitle:@"アップロード" style:UIBarButtonItemStylePlain target:self action:@selector(preparePhoto)];
+    self.navigationItem.leftBarButtonItem = _uploadButton;
+    _uploadButton.enabled = YES;
 }
 
 - (void) reset {
@@ -133,13 +152,18 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
     }
 }
 
-- (void) showHint {
-    NSString *key = @"didShowHint";
+- (void) showHint:(NSString *)type {
+    NSDictionary *hints = @{
+                            @"longTap": @"サムネイル画像を長押しすると拡大表示できます",
+                            @"upload": @"端末の写真を Flickr にアップロードできます。\n※公開情報は非公開設定となります。"
+                            };
+    
+    NSString *key = [NSString stringWithFormat:@"didShowHint_%@", type];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL didShowHint = [userDefaults boolForKey:key];
     if (!didShowHint) {
         UIAlertView *alert =
-        [[UIAlertView alloc] initWithTitle:@"ヒント" message:@"サムネイル画像を長押しすると拡大表示できます"
+        [[UIAlertView alloc] initWithTitle:@"ヒント" message:hints[type]
                                   delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
         [userDefaults setBool:YES forKey:key];
@@ -148,12 +172,13 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 }
 
 - (void) showImages {
+    _uploadButton.enabled = YES;
     _loginView.hidden = YES;
     [SVProgressHUD showWithStatus:@"読込中"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [_flickrAPIRequester fetchImages:PER_PAGE withPage:_currentPage complete:^(NSDictionary *response) {
         _pages = [response[@"photos"][@"pages"] intValue];
-        NSLog(@"%d", _pages);
+        //NSLog(@"%d", _pages);
         //NSLog(@"%@", response);
         NSArray *photos = response[@"photos"][@"photo"];
 
@@ -171,7 +196,7 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
 
         [_gridView reloadData];
         [SVProgressHUD dismiss];
-        [self showHint];
+        [self showHint:@"longTap"];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
         if (_currentPage < _pages) {
@@ -274,9 +299,60 @@ static NSString *TITLE_FORMAT = @"%d/62枚選択";
     [self.navigationController pushViewController:confirmViewController animated:YES];
 }
 
+- (void) preparePhoto {
+    [self showHint:@"upload"];
+    if (_selectedImages.count > 0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"選択が解除されますがよろしいですか？"];
+        [alertView addButtonWithTitle:@"OK" handler:^{
+            [self presentViewController:_imagePickerController animated:YES completion:nil];
+        }];
+        
+        [alertView addButtonWithTitle:@"キャンセル" handler:^{
+        }];
+        
+        [alertView show];
+    } else {
+        [self presentViewController:_imagePickerController animated:YES completion:nil];
+    }
+
+}
+
+- (void) startUploadPhoto:(NSObject *)args {
+    [SVProgressHUD showWithStatus:@"送信中"];
+    NSDictionary *params = (NSDictionary *)args;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [_flickrAPIRequester uploadImage:params[@"image"] withName:params[@"name"] complete:^{
+        [SVProgressHUD dismiss];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        [self reset];
+        [self updateTitle];
+        [self showImages];
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+   [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSURL *imagePath = [info objectForKey:@"UIImagePickerControllerReferenceURL"];
+    
+    NSURL *refURL = [info valueForKey:UIImagePickerControllerReferenceURL];
+    ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *imageAsset)
+    {
+        ALAssetRepresentation *imageRep = [imageAsset defaultRepresentation];
+        NSLog(@"[imageRep filename] : %@", [imageRep filename]);
+        [self dismissViewControllerAnimated:YES completion:nil];
+        UIImage *selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [self performSelector:@selector(startUploadPhoto:) withObject:@{@"image": selectedImage, @"name": [imageRep filename]} afterDelay:0.0];
+    };
+    
+    ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+    [assetslibrary assetForURL:refURL resultBlock:resultblock failureBlock:nil];
+}
+
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    //self.navigationItem.title = @"写真を選択";
 }
 
 - (IBAction)didTapFlickrLoginButton:(id)sender {
