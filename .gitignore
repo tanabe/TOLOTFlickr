@@ -14,4 +14,7 @@ profile
 DerivedData
 .idea/
 *.hmap
+Pods/*
+Podfile.lock
+
 TOLOTFlickr/APIKey.h
